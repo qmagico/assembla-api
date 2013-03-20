@@ -4,15 +4,15 @@ class Model(object):
     @classmethod
     def parse(cls, json):
         entity = cls()
-        for k, v in json.items():
-            setattr(entity, k, v)
+        for key, value in json.items():
+            setattr(entity, key, value)
         return entity
 
     @classmethod
     def parse_list(cls, json):
         entities = []
-        for i in json:
-            entities.append(cls.parse(i))
+        for entity in json:
+            entities.append(cls.parse(entity))
         return entities
 
 
