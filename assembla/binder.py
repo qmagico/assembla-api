@@ -2,8 +2,8 @@ import os
 import requests
 
 
-_key = os.environ['ASSEMBLA_KEY']
-_secret = os.environ['ASSEMBLA_SECRET']
+_key = os.environ.get('ASSEMBLA_KEY', '')
+_secret = os.environ.get('ASSEMBLA_SECRET', '')
 
 
 class ParamCountError(Exception):
