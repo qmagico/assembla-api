@@ -27,7 +27,7 @@ class Model(object):
                     try:
                         value = datetime.strptime(value[:19], '%Y-%m-%dT%H:%M:%S')
                     except ValueError:
-                        value = datetime.strptime(value, '%Y-%m-%d')
+                        value = datetime.strptime(value, '%Y-%m-%d').date()
 
             setattr(entity, key, value)
         return entity
