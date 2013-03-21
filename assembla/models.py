@@ -1,10 +1,24 @@
+from datetime import datetime
 
 
 class Model(object):
     @classmethod
     def parse(cls, json):
+        datetime_fields = [
+            'commercial_from',
+            'completed_date'
+            'created_at',
+            'created_on',
+            'updated_at',
+        ]
+
         entity = cls()
         for key, value in json.items():
+            if key in datetime_fields:
+                # input example:
+                # - 2013-01-12T13:10:24-05:00
+                if value:
+                    value = datetime.strptime(value[:19], '%Y-%m-%dT%H:%M:%S')
             setattr(entity, key, value)
         return entity
 
