@@ -5,14 +5,14 @@ class Model(object):
     @classmethod
     def parse(cls, json):
         datetime_fields = [
+            'applied_at',
+            'begin_at',
             'commercial_from',
             'completed_date'
             'created_at',
             'created_on',
-            'updated_at',
-            'applied_at',
-            'begin_at',
             'end_at',
+            'updated_at',
         ]
 
         entity = cls()
