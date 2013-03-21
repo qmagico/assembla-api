@@ -33,5 +33,7 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
-
 *.sublime-*
+
+# OSX
+.DS_Store
