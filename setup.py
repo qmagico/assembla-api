@@ -8,8 +8,5 @@ setup(name='assembla',
       author=u'QMágico',
       test_suite='test.testall.suite',
       include_package_data=True,
-
       packages=['assembla'],
-
-      install_requires=['requests']
-      )
+      install_requires=['requests'])
