@@ -15,13 +15,28 @@ class Model(object):
             'updated_at',
         ]
 
+        date_fields = [
+            'restricted_date',
+            'last_payer_changed_at',
+            'due_date',
+            'filled_for',
+        ]
+
         entity = cls()
         for key, value in json.items():
+
+            if key in date_fields:
+                # input example:
+                # - 2013-01-12
+                if value:
+                    value = datetime.strptime(value, '%Y-%m-%d')
+
             if key in datetime_fields:
                 # input example:
                 # - 2013-01-12T13:10:24-05:00
                 if value:
                     value = datetime.strptime(value[:19], '%Y-%m-%dT%H:%M:%S')
+
             setattr(entity, key, value)
         return entity
 
