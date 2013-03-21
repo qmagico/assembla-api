@@ -1,0 +1,15 @@
+# -*- coding: utf-8 -*-
+from setuptools import setup
+
+
+setup(name='assembla',
+      version='0.1',
+      description='Assembla API Wrapper',
+      author=u'Qmágico',
+      test_suite='test.testall.suite',
+      include_package_data=True,
+
+      packages=['assembla'],
+
+      install_requires=['requests']
+      )
