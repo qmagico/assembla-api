@@ -10,6 +10,9 @@ class Model(object):
             'created_at',
             'created_on',
             'updated_at',
+            'applied_at',
+            'begin_at',
+            'end_at',
         ]
 
         entity = cls()
