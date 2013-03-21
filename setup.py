@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 from setuptools import setup
 
 
 setup(name='assembla',
       version='0.1',
       description='Assembla API Wrapper',
-      author=u'Qmágico',
+      author=u'QMágico',
       test_suite='test.testall.suite',
       include_package_data=True,
 
