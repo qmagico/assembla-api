@@ -41,10 +41,3 @@ def parse(json):
                     value = datetime.strptime(value, '%Y-%m-%d').date()
         data[key] = value
     return data
-
-
-def parse_list(json):
-    entities = []
-    for entity in json:
-        entities.append(entity)
-    return entities

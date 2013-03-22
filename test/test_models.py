@@ -23,6 +23,31 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals('Assembla', user.organization)
         self.assertEquals({'type': 'Skype', 'id': 'dsa'}, user.im)
 
+    def test_users_instantiation(self):
+        users_dict = [
+            {
+                'phone': '112234',
+                'login': 'test_2',
+                'name': 'Firstname2 Lastname',
+                'id': 'bLGGlS_Lyr4BonadbNA33g',
+                'organization': 'Assembla',
+                'im': {'type': 'Skype', 'id': 'dsa2'}
+            },
+            {
+                'phone': '112233',
+                'login': 'test_1',
+                'name': 'Firstname Lastname',
+                'id': 'bLGGlS_Lyr4BonadbNA33N',
+                'organization': 'Assembla',
+                'im': {'type': 'Skype', 'id': 'dsa'}
+            }
+        ]
+
+        users = models.User.parse_list(users_dict)
+
+        self.assertEquals(2, len(users))
+        self.assertTrue(isinstance(users[0], models.User))
+
     def test_space_instantiation(self):
         space_dict = {
             'status': 1,

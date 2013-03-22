@@ -12,7 +12,7 @@ class Model(object):
 
     @classmethod
     def parse_list(cls, json):
-        return cls.parse_list(json)
+        return [cls.parse(entity) for entity in json]
 
 
 class User(Model):
