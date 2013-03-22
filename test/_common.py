@@ -25,7 +25,7 @@ model_names = {
 }
 
 
-class APIMock(object):
+class MockAPI(object):
     def __getattr__(self, attr):
         if not attr in model_names:
             raise NameError('No method called "{0}"'.format(attr))

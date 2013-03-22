@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from ._common import unittest, APIMock
+from ._common import unittest, MockAPI
 from assembla import parsers, models
 
 
@@ -19,47 +19,47 @@ class ParserTest(unittest.TestCase):
 
     def test_user_fields(self):
         self.assertIsInstance(
-            parsers.parse({'user_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('user'),
+            parsers.parse({'user_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=MockAPI()).get('user'),
             models.User
         )
 
         self.assertIsInstance(
-            parsers.parse({'reporter_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('reporter'),
+            parsers.parse({'reporter_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=MockAPI()).get('reporter'),
             models.User
         )
 
         self.assertIsInstance(
-            parsers.parse({'assigned_to_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('assigned_to'),
+            parsers.parse({'assigned_to_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=MockAPI()).get('assigned_to'),
             models.User
         )
 
     def test_ticket_fields(self):
         self.assertIsInstance(
-            parsers.parse({'ticket_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('ticket'),
+            parsers.parse({'ticket_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=MockAPI()).get('ticket'),
             models.Ticket
         )
 
     def test_task_fields(self):
         self.assertIsInstance(
-            parsers.parse({'task_id': 25}, api=APIMock()).get('task'),
+            parsers.parse({'task_id': 25}, api=MockAPI()).get('task'),
             models.Task
         )
 
     def test_milestone_fields(self):
         self.assertIsInstance(
-            parsers.parse({'milestone_id': 'bRxpnOMYWr4id7adbNA33N'}, api=APIMock()).get('milestone'),
+            parsers.parse({'milestone_id': 'bRxpnOMYWr4id7adbNA33N'}, api=MockAPI()).get('milestone'),
             models.Milestone
         )
 
     def test_component_fields(self):
         self.assertIsInstance(
-            parsers.parse({'component_id': 'bRxpnOMYWr4id7adbNA33N'}, api=APIMock()).get('component'),
+            parsers.parse({'component_id': 'bRxpnOMYWr4id7adbNA33N'}, api=MockAPI()).get('component'),
             models.Component
         )
 
     def test_space_tool_fields(self):
         self.assertIsInstance(
-            parsers.parse({'space_tool_id': 'aFsIka2SGr4j8fadbNA33N'}, api=APIMock()).get('space_tool'),
+            parsers.parse({'space_tool_id': 'aFsIka2SGr4j8fadbNA33N'}, api=MockAPI()).get('space_tool'),
             models.SpaceTool
         )
 

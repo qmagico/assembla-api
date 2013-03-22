@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from ._common import unittest, APIMock
+from ._common import unittest, MockAPI
 from assembla import models
 
 
@@ -147,7 +147,7 @@ class ModelsTest(unittest.TestCase):
             'working_hours': 0.0
         }
 
-        ticket = models.Ticket.parse(ticket_dict, api=APIMock())
+        ticket = models.Ticket.parse(ticket_dict, api=MockAPI())
 
         self.assertEquals(8, ticket.number)
         self.assertEquals({'Text Field': '', 'list': ''}, ticket.custom_fields)
@@ -188,7 +188,7 @@ class ModelsTest(unittest.TestCase):
             'id': 2
         }
 
-        time_entry = models.TimeEntry.parse(time_entry_dict, api=APIMock())
+        time_entry = models.TimeEntry.parse(time_entry_dict, api=MockAPI())
 
         self.assertEquals(1, 1)
         self.assertEquals(datetime(2012, 12, 31, 16, 1, 17), time_entry.created_at)
@@ -221,7 +221,7 @@ class ModelsTest(unittest.TestCase):
             'space_id': 'b89TL8MYWr4id7adbNA33N'
         }
 
-        milestone = models.Milestone.parse(milestone_dict, api=APIMock())
+        milestone = models.Milestone.parse(milestone_dict, api=MockAPI())
 
         self.assertEquals(0, milestone.planner_type)
         self.assertEquals('sdfsd', milestone.description)
@@ -259,7 +259,7 @@ class ModelsTest(unittest.TestCase):
             'id': 7
         }
 
-        task = models.Task.parse(task_dict, api=APIMock())
+        task = models.Task.parse(task_dict, api=MockAPI())
 
         self.assertEquals(False, task.billed)
         self.assertEquals(datetime(2012, 12, 17, 8, 52, 20), task.created_at)
@@ -289,7 +289,7 @@ class ModelsTest(unittest.TestCase):
             'updated_at': '2012-09-11T13:09:26Z'
         }
 
-        ticket_status = models.TicketStatus.parse(ticket_status_dict, api=APIMock())
+        ticket_status = models.TicketStatus.parse(ticket_status_dict, api=MockAPI())
 
         self.assertEquals(1, ticket_status.id)
         self.assertIsInstance(ticket_status.space_tool, models.SpaceTool)
@@ -330,7 +330,7 @@ class ModelsTest(unittest.TestCase):
             'id': 'aFsIka2SGr4j8fadbNA33N',
         }
 
-        space_tool = models.SpaceTool.parse(space_tool_dict, api=APIMock())
+        space_tool = models.SpaceTool.parse(space_tool_dict, api=MockAPI())
 
         self.assertEquals('SubversionTool', space_tool.type)
         self.assertEquals(12, space_tool.tool_id)
