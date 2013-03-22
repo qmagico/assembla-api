@@ -1,7 +1,14 @@
 from datetime import datetime
 
 from ._common import unittest
-from assembla import parsers
+from assembla import parsers, models
+
+
+class APIMock(object):
+    def user(self, id):
+        user = models.User()
+        user.id = id
+        return user
 
 
 class ParserTest(unittest.TestCase):

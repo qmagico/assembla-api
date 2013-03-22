@@ -4,6 +4,13 @@ from ._common import unittest
 from assembla import models
 
 
+class APIMock(object):
+    def user(self, id):
+        user = models.User()
+        user.id = id
+        return user
+
+
 class ModelsTest(unittest.TestCase):
     def test_user_instantiation(self):
         user_dict = {
@@ -46,7 +53,7 @@ class ModelsTest(unittest.TestCase):
         users = models.User.parse_list(users_dict)
 
         self.assertEquals(2, len(users))
-        self.assertTrue(isinstance(users[0], models.User))
+        self.assertIsInstance(users[0], models.User)
 
     def test_space_instantiation(self):
         space_dict = {
@@ -186,14 +193,15 @@ class ModelsTest(unittest.TestCase):
             'id': 2
         }
 
-        time_entry = models.TimeEntry.parse(time_entry_dict)
+        time_entry = models.TimeEntry.parse(time_entry_dict, api=APIMock())
 
         self.assertEquals(1, 1)
         self.assertEquals(datetime(2012, 12, 31, 16, 1, 17), time_entry.created_at)
         self.assertEquals('b3gNxoscyr4Q7K5bfBjDYC', time_entry.space_id)
         self.assertEquals('Description goes here', time_entry.description)
         self.assertEquals(25, time_entry.task_id)
-        self.assertEquals('b9DhI-spar4OJk5bfBjDYC', time_entry.user_id)
+        self.assertIsInstance(time_entry.user, models.User)
+        self.assertEquals('b9DhI-spar4OJk5bfBjDYC', time_entry.user.id)
         self.assertEquals(2, time_entry.id)
 
     def test_milestone_instantiation(self):
@@ -216,7 +224,7 @@ class ModelsTest(unittest.TestCase):
             'space_id': 'b89TL8MYWr4id7adbNA33N'
         }
 
-        milestone = models.Milestone.parse(milestone_dict)
+        milestone = models.Milestone.parse(milestone_dict, api=APIMock())
 
         self.assertEquals(0, milestone.planner_type)
         self.assertEquals('sdfsd', milestone.description)
@@ -232,7 +240,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(datetime(2012, 5, 30, 9, 12, 14), milestone.updated_at)
         self.assertEquals('bgnP_qA1Gr2QjIaaaHk9wZ', milestone.updated_by)
         self.assertEquals(3, milestone.id)
-        self.assertEquals(None, milestone.user_id)
+        self.assertEquals(None, milestone.user)
         self.assertEquals('b89TL8MYWr4id7adbNA33N', milestone.space_id)
 
     def test_task_milestone(self):
@@ -253,7 +261,7 @@ class ModelsTest(unittest.TestCase):
             'id': 7
         }
 
-        task = models.Task.parse(task_dict)
+        task = models.Task.parse(task_dict, api=APIMock())
 
         self.assertEquals(False, task.billed)
         self.assertEquals(datetime(2012, 12, 17, 8, 52, 20), task.created_at)
@@ -264,7 +272,8 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals('Description goes here', task.description)
         self.assertEquals(datetime(2012, 12, 17, 8, 52, 20), task.updated_at)
         self.assertEquals(None, task.job_agreement_id)
-        self.assertEquals('apr9bascyr4Q7K5bfBjDYC', task.user_id)
+        self.assertIsInstance(task.user, models.User)
+        self.assertEquals('apr9bascyr4Q7K5bfBjDYC', task.user.id)
         self.assertEquals(None, task.ticket_id)
         self.assertEquals(datetime(2012, 12, 17, 8, 51, 0), task.end_at)
         self.assertEquals(1.0, task.hours)

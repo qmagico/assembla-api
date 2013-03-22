@@ -3,8 +3,8 @@ from . import parsers
 
 class Model(object):
     @classmethod
-    def parse(cls, json):
-        attrs = parsers.parse(json)
+    def parse(cls, json, api=None):
+        attrs = parsers.parse(json, api=api)
         instance = cls()
         for key, value in attrs.items():
             setattr(instance, key, value)
