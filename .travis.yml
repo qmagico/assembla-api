@@ -5,8 +5,9 @@ python:
 install:
     - pip install . --use-mirrors
     - pip install requests --use-mirrors
+    - pip install flake8
     - "if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then pip install unittest2 --use-mirrors; fi"
-script: nosetests
+script: "nosetests && flake8 --ignore=E501 ."
 branches:
     only:
         - master
