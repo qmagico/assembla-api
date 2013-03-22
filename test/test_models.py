@@ -241,7 +241,7 @@ class ModelsTest(unittest.TestCase):
         self.assertIsInstance(milestone.space, models.Space)
         self.assertEquals('b89TL8MYWr4id7adbNA33N', milestone.space.id)
 
-    def test_task_milestone(self):
+    def test_task_instantiation(self):
         task_dict = {
             'billed': False,
             'created_at': '2012-12-17T08:52:20Z',
