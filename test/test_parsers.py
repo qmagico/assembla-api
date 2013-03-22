@@ -24,6 +24,12 @@ class ParserTest(unittest.TestCase):
             parsers.parse({'created_on': '2011-09-02T10:21:48Z'})
         )
 
+    def test_user_fields(self):
+        self.assertIsInstance(
+            parsers.parse({'user_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('user'),
+            models.User
+        )
+
 
 def suite():
     return unittest.TestLoader().loadTestsFromName(__name__)
