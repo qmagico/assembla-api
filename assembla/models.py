@@ -27,6 +27,10 @@ class Ticket(Model):
     pass
 
 
+class TicketStatus(Model):
+    pass
+
+
 class TimeEntry(Model):
     pass
 

@@ -270,6 +270,27 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(1.0, task.hours)
         self.assertEquals(7, task.id)
 
+    def test_ticket_status_instantiation(self):
+        ticket_status_dict = {
+            'id': 1,
+            'space_tool_id': 'dP3FZG_ber4B8UadbNA33N',
+            'name': 'New',
+            'state': 1,
+            'list_order': 1,
+            'created_at': '2012-09-11T13:09:26Z',
+            'updated_at': '2012-09-11T13:09:26Z'
+        }
+
+        ticket_status = models.TicketStatus.parse(ticket_status_dict)
+
+        self.assertEquals(1, ticket_status.id)
+        self.assertEquals('dP3FZG_ber4B8UadbNA33N', ticket_status.space_tool_id)
+        self.assertEquals('New', ticket_status.name)
+        self.assertEquals(1, ticket_status.state)
+        self.assertEquals(1, ticket_status.list_order)
+        self.assertEquals(datetime(2012, 9, 11, 13, 9, 26), ticket_status.created_at)
+        self.assertEquals(datetime(2012, 9, 11, 13, 9, 26), ticket_status.updated_at)
+
 
 def suite():
     return unittest.TestLoader().loadTestsFromName(__name__)
