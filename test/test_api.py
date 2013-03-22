@@ -24,9 +24,8 @@ class BinderTest(unittest.TestCase):
         uri = _make_uri('space')
         space_id = 'axk9jBJ64'
 
-        getter = _make_getter(self, uri.format(space_id=space_id))
-
-        handler = binder.bind(uri=uri, model=models.Model, getter=getter)
+        handler = binder.bind(uri=uri, model=models.Model,
+                              getter=_make_getter(self, uri.format(space_id=space_id)))
         handler(space_id=space_id)
 
     def test_multi_uri(self):
@@ -36,14 +35,12 @@ class BinderTest(unittest.TestCase):
         space_id = 'axk9jBJ64'
         milestone_id = 1
 
-        getter = _make_getter(self, uri[0].format(space_id=space_id))
-
-        handler = binder.bind(uri=uri, model=models.Model, getter=getter)
+        handler = binder.bind(uri=uri, model=models.Model,
+                              getter=_make_getter(self, uri[0].format(space_id=space_id)))
         handler(space_id=space_id)
 
-        getter = _make_getter(self, uri[1].format(space_id=space_id, milestone_id=milestone_id))
-
-        handler = binder.bind(uri=uri, model=models.Model, getter=getter)
+        handler = binder.bind(uri=uri, model=models.Model,
+                              getter=_make_getter(self, uri[1].format(space_id=space_id, milestone_id=milestone_id)))
         handler(space_id=space_id, milestone_id=milestone_id)
 
 

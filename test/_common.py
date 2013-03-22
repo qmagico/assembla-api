@@ -7,7 +7,6 @@ except ImportError:
     import unittest
 
 sys.path.insert(0, '..')
-import assembla
 
 
 class TestCast(unittest.TestCase):
