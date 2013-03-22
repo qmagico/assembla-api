@@ -44,22 +44,22 @@ def parse(json, api=None):
             if value:
                 value = api.user(id=value)
 
-        if key == 'space_id':
+        elif key == 'space_id':
             key = 'space'
             if value:
                 value = api.space(id=value)
 
-        if key == 'ticket_id':
+        elif key == 'ticket_id':
             key = 'ticket'
             if value:
                 value = api.ticket(id=value)
 
-        if key == 'task_id':
+        elif key == 'task_id':
             key = 'task'
             if value:
                 value = api.task(id=value)
 
-        if key == 'milestone_id':
+        elif key == 'milestone_id':
             key = 'milestone'
             if value:
                 value = api.milestone(id=value)
