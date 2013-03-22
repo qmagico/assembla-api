@@ -159,7 +159,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals('b89TL8MYWr4id7adbNA33N', ticket.space.id)
         self.assertIsInstance(ticket.reporter, models.User)
         self.assertEquals('bRxpnOMYWr4id7adbNA33N', ticket.reporter.id)
-        self.assertEquals(None, ticket.milestone_id)
+        self.assertEquals(None, ticket.milestone)
         self.assertEquals(1, ticket.status)
         self.assertEquals(False, ticket.is_story)
         self.assertEquals('', ticket.notification_list)

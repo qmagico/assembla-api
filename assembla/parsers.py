@@ -53,6 +53,11 @@ def parse(json, api=None):
             if value:
                 value = api.task(id=value)
 
+        if key == 'milestone_id':
+            key = 'milestone'
+            if value:
+                value = api.milestone(id=value)
+
         elif key in float_fields:
             if value:
                 value = float(value)

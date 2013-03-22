@@ -19,6 +19,7 @@ model_names = {
     'space': models.Space,
     'ticket': models.Ticket,
     'task': models.Task,
+    'milestone': models.Milestone,
 }
 
 
