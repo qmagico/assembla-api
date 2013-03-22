@@ -17,10 +17,23 @@ def parse(json):
         'updated_at',
     ]
 
+    float_fields = [
+        'estimate',
+        'hours',
+        'importance',
+        'total_estimate',
+        'total_invested_hours',
+        'total_working_hours',
+    ]
+
     data = {}
 
     for key, value in json.items():
-        if key in datetime_fields:
+        if key in float_fields:
+            if value:
+                value = float(value)
+
+        elif key in datetime_fields:
             if value:
                 try:
                     value = datetime.strptime(value[:19], '%Y-%m-%dT%H:%M:%S')
