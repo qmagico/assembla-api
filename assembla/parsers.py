@@ -49,6 +49,11 @@ def parse(json, api=None):
             if value:
                 value = api.space(id=value)
 
+        elif key == 'space_tool_id':
+            key = 'space_tool'
+            if value:
+                value = api.space_tool(id=value)
+
         elif key == 'ticket_id':
             key = 'ticket'
             if value:

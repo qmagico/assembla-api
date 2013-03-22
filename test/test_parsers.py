@@ -45,16 +45,22 @@ class ParserTest(unittest.TestCase):
             models.Task
         )
 
-    def test_milestone_field(self):
+    def test_milestone_fields(self):
         self.assertIsInstance(
             parsers.parse({'milestone_id': 'bRxpnOMYWr4id7adbNA33N'}, api=APIMock()).get('milestone'),
             models.Milestone
         )
 
-    def test_component_field(self):
+    def test_component_fields(self):
         self.assertIsInstance(
             parsers.parse({'component_id': 'bRxpnOMYWr4id7adbNA33N'}, api=APIMock()).get('component'),
             models.Component
+        )
+
+    def test_space_tool_fields(self):
+        self.assertIsInstance(
+            parsers.parse({'space_tool_id': 'aFsIka2SGr4j8fadbNA33N'}, api=APIMock()).get('space_tool'),
+            models.SpaceTool
         )
 
 

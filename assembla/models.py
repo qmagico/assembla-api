@@ -23,6 +23,10 @@ class Space(Model):
     pass
 
 
+class SpaceTool(Model):
+    pass
+
+
 class Ticket(Model):
     pass
 

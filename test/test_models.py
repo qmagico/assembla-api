@@ -289,10 +289,11 @@ class ModelsTest(unittest.TestCase):
             'updated_at': '2012-09-11T13:09:26Z'
         }
 
-        ticket_status = models.TicketStatus.parse(ticket_status_dict)
+        ticket_status = models.TicketStatus.parse(ticket_status_dict, api=APIMock())
 
         self.assertEquals(1, ticket_status.id)
-        self.assertEquals('dP3FZG_ber4B8UadbNA33N', ticket_status.space_tool_id)
+        self.assertIsInstance(ticket_status.space_tool, models.SpaceTool)
+        self.assertEquals('dP3FZG_ber4B8UadbNA33N', ticket_status.space_tool.id)
         self.assertEquals('New', ticket_status.name)
         self.assertEquals(1, ticket_status.state)
         self.assertEquals(1, ticket_status.list_order)
@@ -309,6 +310,44 @@ class ModelsTest(unittest.TestCase):
 
         self.assertEquals(16, component.id)
         self.assertEquals('asd', component.name)
+
+    def test_space_tool_instantiation(self):
+        space_tool_dict = {
+            'type': 'SubversionTool',
+            'tool_id': 12,
+            'active': True,
+            'created_at': '2011-09-09T09:43:07Z',
+            'team_permissions': None,
+            'url': None,
+            'space_id': 'b89TL8MYWr4id7adbNA33N',
+            'number': 1,
+            'public_permissions': None,
+            'parent_id': None,
+            'name': 'subversion',
+            'menu_name': 'Source/SVN',
+            'watcher_permissions': None,
+            'settings': {'state': 'failed', 'vcs_url': None},
+            'id': 'aFsIka2SGr4j8fadbNA33N',
+        }
+
+        space_tool = models.SpaceTool.parse(space_tool_dict, api=APIMock())
+
+        self.assertEquals('SubversionTool', space_tool.type)
+        self.assertEquals(12, space_tool.tool_id)
+        self.assertEquals(True, space_tool.active)
+        self.assertEquals(datetime(2011, 9, 9, 9, 43, 7), space_tool.created_at)
+        self.assertEquals(None, space_tool.team_permissions)
+        self.assertEquals(None, space_tool.url)
+        self.assertIsInstance(space_tool.space, models.Space)
+        self.assertEquals('b89TL8MYWr4id7adbNA33N', space_tool.space.id)
+        self.assertEquals(1, space_tool.number)
+        self.assertEquals(None, space_tool.public_permissions)
+        self.assertEquals(None, space_tool.parent_id)
+        self.assertEquals('subversion', space_tool.name)
+        self.assertEquals('Source/SVN', space_tool.menu_name)
+        self.assertEquals(None, space_tool.watcher_permissions)
+        self.assertEquals({'state': 'failed', 'vcs_url': None}, space_tool.settings)
+        self.assertEquals('aFsIka2SGr4j8fadbNA33N', space_tool.id)
 
 
 def suite():
