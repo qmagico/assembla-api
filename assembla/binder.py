@@ -1,5 +1,6 @@
 import os
 import requests
+from string import Formatter
 
 
 _key = os.environ.get('ASSEMBLA_KEY', '')
@@ -11,7 +12,8 @@ class ParamCountError(Exception):
 
 
 def _check_params(uri, fields):
-    for _, field_name, _, _ in uri._formatter_parser():
+    parser = Formatter().parse(uri)
+    for _, field_name, _, _ in parser:
         if field_name and field_name not in fields:
             return False
         fields.remove(field_name)
@@ -31,14 +33,14 @@ def _fetch_object(uri, model, getter):
 
 def bind(**config):
     def handler(**kwargs):
-        if not _check_params(config['uri'], kwargs.keys()):
+        if not _check_params(config['uri'], list(kwargs)):
             raise ParamCountError()
 
         return _fetch_object(config['uri'].format(**kwargs), config['model'], config.get('getter', requests.get))
 
     def handler_multi(**kwargs):
         for uri in config['uri']:
-            if _check_params(uri, kwargs.keys()):
+            if _check_params(uri, list(kwargs)):
                 return _fetch_object(uri.format(**kwargs), config['model'], config.get('getter', requests.get))
 
         raise ParamCountError()

@@ -1,5 +1,11 @@
-from _common import unittest
+import os
+import sys
+from ._common import unittest
 from assembla import binder, models
+
+pkgpath = os.path.dirname(__file__) or '.'
+sys.path.append(pkgpath)
+os.chdir(pkgpath)
 
 
 def _make_uri(*args):
