@@ -115,7 +115,7 @@ class ModelsTest(unittest.TestCase):
             'updated_at': '2012-04-12T10:32:58Z',
             'summary': 'asd',
             'total_working_hours': 0.0,
-            'estimate':  0.0,
+            'estimate': 0.0,
             'id': 10,
             'assigned_to_id': None,
             'status_name': 'New',
@@ -242,7 +242,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals('apr9bascyr4Q7K5bfBjDYC', task.user_id)
         self.assertEquals(None, task.ticket_id)
         self.assertEquals(datetime(2012, 12, 17, 8, 51, 0), task.end_at)
-        self.assertEquals('1.0', task.hours)
+        self.assertEquals(1.0, task.hours)
         self.assertEquals(7, task.id)
 
 
