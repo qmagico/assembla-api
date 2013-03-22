@@ -1,4 +1,4 @@
-from _common import unittest
+from ._common import unittest
 from assembla import binder, models
 
 

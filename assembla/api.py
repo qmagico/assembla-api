@@ -1,5 +1,4 @@
-import models
-import binder
+from . import binder, models
 
 
 class API(object):
