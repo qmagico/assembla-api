@@ -17,7 +17,8 @@ class TestCast(unittest.TestCase):
 model_names = {
     'user': models.User,
     'space': models.Space,
-    'ticket': models.Ticket
+    'ticket': models.Ticket,
+    'task': models.Task,
 }
 
 

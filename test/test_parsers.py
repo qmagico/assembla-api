@@ -39,6 +39,12 @@ class ParserTest(unittest.TestCase):
             models.Ticket
         )
 
+    def test_task_fields(self):
+        self.assertIsInstance(
+            parsers.parse({'task_id': 25}, api=APIMock()).get('task'),
+            models.Task
+        )
+
 
 def suite():
     return unittest.TestLoader().loadTestsFromName(__name__)

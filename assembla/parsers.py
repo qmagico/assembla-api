@@ -48,6 +48,11 @@ def parse(json, api=None):
             if value:
                 value = api.ticket(id=value)
 
+        if key == 'task_id':
+            key = 'task'
+            if value:
+                value = api.task(id=value)
+
         elif key in float_fields:
             if value:
                 value = float(value)
