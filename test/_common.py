@@ -14,19 +14,20 @@ sys.path.insert(0, '..')
 class TestCast(unittest.TestCase):
     pass
 
+model_names = {
+    'user': models.User,
+    'space': models.Space,
+    'ticket': models.Ticket
+}
+
 
 class APIMock(object):
-    def user(self, id):
-        user = models.User()
-        user.id = id
-        return user
+    def __getattr__(self, attr):
+        if not attr in model_names:
+            raise NameError('No method called "{0}"'.format(attr))
+        instance = model_names.get(attr)()
 
-    def space(self, id):
-        space = models.Space()
-        space.id = id
-        return space
-
-    def ticket(self, id):
-        ticket = models.Ticket()
-        ticket.id = id
-        return ticket
+        def method(id):
+            instance.id = id
+            return instance
+        return method
