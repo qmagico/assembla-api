@@ -1,14 +1,7 @@
 from datetime import datetime
 
-from ._common import unittest
+from ._common import unittest, APIMock
 from assembla import parsers, models
-
-
-class APIMock(object):
-    def user(self, id):
-        user = models.User()
-        user.id = id
-        return user
 
 
 class ParserTest(unittest.TestCase):
@@ -27,6 +20,11 @@ class ParserTest(unittest.TestCase):
     def test_user_fields(self):
         self.assertIsInstance(
             parsers.parse({'user_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('user'),
+            models.User
+        )
+
+        self.assertIsInstance(
+            parsers.parse({'reporter_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('reporter'),
             models.User
         )
 

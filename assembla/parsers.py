@@ -33,10 +33,15 @@ def parse(json, api=None):
     api = api or API()
 
     for key, value in json.items():
-        if key == 'user_id':
-            key = 'user'
+        if key in ['user_id', 'reporter_id']:
+            key = key.replace('_id', '')
             if value:
                 value = api.user(id=value)
+
+        if key == 'space_id':
+            key = 'space'
+            if value:
+                value = api.space(id=value)
 
         elif key in float_fields:
             if value:
