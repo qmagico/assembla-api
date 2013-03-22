@@ -26,6 +26,12 @@ def parse(json, api=None):
         'total_working_hours',
     ]
 
+    user_fields = [
+        'user_id',
+        'reporter_id',
+        'assigned_to_id',
+    ]
+
     data = {}
 
     # imported here to avoid cyclic dependency
@@ -33,7 +39,7 @@ def parse(json, api=None):
     api = api or API()
 
     for key, value in json.items():
-        if key in ['user_id', 'reporter_id', 'assigned_to_id']:
+        if key in user_fields:
             key = key.replace('_id', '')
             if value:
                 value = api.user(id=value)
