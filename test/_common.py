@@ -20,6 +20,7 @@ model_names = {
     'ticket': models.Ticket,
     'task': models.Task,
     'milestone': models.Milestone,
+    'component': models.Component,
 }
 
 

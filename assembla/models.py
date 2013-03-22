@@ -41,3 +41,7 @@ class Milestone(Model):
 
 class Task(Model):
     pass
+
+
+class Component(Model):
+    pass

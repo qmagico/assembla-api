@@ -51,6 +51,12 @@ class ParserTest(unittest.TestCase):
             models.Milestone
         )
 
+    def test_component_field(self):
+        self.assertIsInstance(
+            parsers.parse({'component_id': 'bRxpnOMYWr4id7adbNA33N'}, api=APIMock()).get('component'),
+            models.Component
+        )
+
 
 def suite():
     return unittest.TestLoader().loadTestsFromName(__name__)

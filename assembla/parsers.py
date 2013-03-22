@@ -64,6 +64,11 @@ def parse(json, api=None):
             if value:
                 value = api.milestone(id=value)
 
+        elif key == 'component_id':
+            key = 'component'
+            if value:
+                value = api.component(id=value)
+
         elif key in float_fields:
             if value:
                 value = float(value)

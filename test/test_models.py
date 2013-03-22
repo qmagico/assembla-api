@@ -153,7 +153,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals({'Text Field': '', 'list': ''}, ticket.custom_fields)
         self.assertEquals(0, ticket.total_estimate)
         self.assertEquals(1, ticket.priority)
-        self.assertEquals(None, ticket.component_id)
+        self.assertEquals(None, ticket.component)
         self.assertEquals(0, ticket.story_importance)
         self.assertIsInstance(ticket.space, models.Space)
         self.assertEquals('b89TL8MYWr4id7adbNA33N', ticket.space.id)
@@ -298,6 +298,17 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(1, ticket_status.list_order)
         self.assertEquals(datetime(2012, 9, 11, 13, 9, 26), ticket_status.created_at)
         self.assertEquals(datetime(2012, 9, 11, 13, 9, 26), ticket_status.updated_at)
+
+    def test_component_instantiation(self):
+        component_dict = {
+            'id': 16,
+            'name': 'asd'
+        }
+
+        component = models.Component.parse(component_dict)
+
+        self.assertEquals(16, component.id)
+        self.assertEquals('asd', component.name)
 
 
 def suite():
