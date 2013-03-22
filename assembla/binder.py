@@ -22,9 +22,9 @@ def _check_params(uri, fields):
     return True
 
 
-def _fetch_object(uri, model, getter):
+def _fetch_object(uri, model):
     headers = {'X-Api-Key': _key, 'X-Api-Secret': _secret}
-    response = getter('https://api.assembla.com{0}'.format(uri), headers=headers)
+    response = requests.get('https://api.assembla.com{0}'.format(uri), headers=headers)
 
     if isinstance(response.json(), list):
         return model.parse_list(response.json())
@@ -36,12 +36,12 @@ def bind(**config):
         if not _check_params(config['uri'], list(kwargs)):
             raise ParamCountError()
 
-        return _fetch_object(config['uri'].format(**kwargs), config['model'], config.get('getter', requests.get))
+        return _fetch_object(config['uri'].format(**kwargs), config['model'])
 
     def handler_multi(**kwargs):
         for uri in config['uri']:
             if _check_params(uri, list(kwargs)):
-                return _fetch_object(uri.format(**kwargs), config['model'], config.get('getter', requests.get))
+                return _fetch_object(uri.format(**kwargs), config['model'])
 
         raise ParamCountError()
 

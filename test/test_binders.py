@@ -10,11 +10,20 @@ def _make_uri(*args):
 def _make_getter(test_case, uri):
     def getter(url, **req_kwargs):
         test_case.assertEqual('https://api.assembla.com{0}'.format(uri), url)
-        return Response()
+        return MockResponse()
     return getter
 
 
-class Response(object):
+class MockRequest(object):
+    def __init__(self, test_case, uri):
+        self.test_case = test_case
+        self.url = 'https://api.assembla.com{0}'.format(uri)
+
+    def get(self, url, **kwargs):
+        return MockResponse()
+
+
+class MockResponse(object):
     def json(self):
         return {}
 
@@ -24,8 +33,9 @@ class BinderTest(unittest.TestCase):
         uri = _make_uri('space')
         space_id = 'axk9jBJ64'
 
-        handler = binder.bind(uri=uri, model=models.Model,
-                              getter=_make_getter(self, uri.format(space_id=space_id)))
+        handler = binder.bind(uri=uri, model=models.Model)
+                              # getter=MockRequest(self, uri.format(space_id=space_id)).get)
+        binder.requests.get = MockRequest(self, uri.format(space_id=space_id)).get
         handler(space_id=space_id)
 
     def test_multi_uri(self):
@@ -35,12 +45,12 @@ class BinderTest(unittest.TestCase):
         space_id = 'axk9jBJ64'
         milestone_id = 1
 
-        handler = binder.bind(uri=uri, model=models.Model,
-                              getter=_make_getter(self, uri[0].format(space_id=space_id)))
+        handler = binder.bind(uri=uri, model=models.Model)
+        binder.requests.get = MockRequest(self, uri[0].format(space_id=space_id)).get
         handler(space_id=space_id)
 
-        handler = binder.bind(uri=uri, model=models.Model,
-                              getter=_make_getter(self, uri[1].format(space_id=space_id, milestone_id=milestone_id)))
+        handler = binder.bind(uri=uri, model=models.Model)
+        binder.requests.get = MockRequest(self, uri[1].format(space_id=space_id, milestone_id=milestone_id)).get
         handler(space_id=space_id, milestone_id=milestone_id)
 
 
