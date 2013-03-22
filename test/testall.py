@@ -12,6 +12,7 @@ def suite():
     s = unittest.TestSuite()
     # Get the suite() of every module in this directory beginning with
     # "test_".
+    pkgpath = os.path.dirname(__file__) or '.'
     for fname in os.listdir(pkgpath):
         match = re.match(r'(test_\S+)\.py$', fname)
         if match:

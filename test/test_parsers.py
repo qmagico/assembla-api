@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from _common import unittest
+from ._common import unittest
 from assembla import parsers
 
 

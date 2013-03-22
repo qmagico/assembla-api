@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from _common import unittest
+from ._common import unittest
 from assembla import models
 
 
@@ -164,7 +164,7 @@ class ModelsTest(unittest.TestCase):
         time_entry = models.TimeEntry.parse(time_entry_dict)
 
         self.assertEquals(1, 1)
-        self.assertEquals(datetime(2012, 12, 31, 16, 01, 17), time_entry.created_at)
+        self.assertEquals(datetime(2012, 12, 31, 16, 1, 17), time_entry.created_at)
         self.assertEquals('b3gNxoscyr4Q7K5bfBjDYC', time_entry.space_id)
         self.assertEquals('Description goes here', time_entry.description)
         self.assertEquals(25, time_entry.task_id)
@@ -204,7 +204,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(False, milestone.is_completed)
         self.assertEquals('dsa', milestone.title)
         self.assertEquals(datetime(2011, 7, 26, 8, 9, 25), milestone.created_at)
-        self.assertEquals(datetime(2012, 05, 30, 9, 12, 14), milestone.updated_at)
+        self.assertEquals(datetime(2012, 5, 30, 9, 12, 14), milestone.updated_at)
         self.assertEquals('bgnP_qA1Gr2QjIaaaHk9wZ', milestone.updated_by)
         self.assertEquals(3, milestone.id)
         self.assertEquals(None, milestone.user_id)
