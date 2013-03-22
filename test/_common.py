@@ -25,3 +25,8 @@ class APIMock(object):
         space = models.Space()
         space.id = id
         return space
+
+    def ticket(self, id):
+        ticket = models.Ticket()
+        ticket.id = id
+        return ticket

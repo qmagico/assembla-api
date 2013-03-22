@@ -174,7 +174,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(0, ticket.total_working_hours)
         self.assertEquals(0, ticket.estimate)
         self.assertEquals(10, ticket.id)
-        self.assertEquals(None, ticket.assigned_to_id)
+        self.assertEquals(None, ticket.assigned_to)
         self.assertEquals('New', ticket.status_name)
         self.assertEquals(0, ticket.working_hours)
 
@@ -272,7 +272,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(None, task.job_agreement_id)
         self.assertIsInstance(task.user, models.User)
         self.assertEquals('apr9bascyr4Q7K5bfBjDYC', task.user.id)
-        self.assertEquals(None, task.ticket_id)
+        self.assertEquals(None, task.ticket)
         self.assertEquals(datetime(2012, 12, 17, 8, 51, 0), task.end_at)
         self.assertEquals(1.0, task.hours)
         self.assertEquals(7, task.id)

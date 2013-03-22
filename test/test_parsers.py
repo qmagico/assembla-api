@@ -28,6 +28,17 @@ class ParserTest(unittest.TestCase):
             models.User
         )
 
+        self.assertIsInstance(
+            parsers.parse({'assigned_to_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('assigned_to'),
+            models.User
+        )
+
+    def test_ticket_fields(self):
+        self.assertIsInstance(
+            parsers.parse({'ticket_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=APIMock()).get('ticket'),
+            models.Ticket
+        )
+
 
 def suite():
     return unittest.TestLoader().loadTestsFromName(__name__)
