@@ -8,11 +8,13 @@ try:
 except ImportError:
     import unittest
 
+try:
+    import mock
+except ImportError:
+    from unittest import mock
+
 sys.path.insert(0, '..')
 
-
-class TestCast(unittest.TestCase):
-    pass
 
 model_names = {
     'user': models.User,
@@ -23,14 +25,6 @@ model_names = {
     'milestone': models.Milestone,
     'component': models.Component,
 }
-
-
-class MockBase(object):
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args):
-        pass
 
 
 class MockAPI(object):
