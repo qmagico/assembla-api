@@ -7,7 +7,7 @@ class API(object):
     def __init__(self, key=None, secret=None):
         key = key or os.environ.get('ASSEMBLA_KEY', '')
         secret = secret or os.environ.get('ASSEMBLA_SECRET', '')
-        binder = Binder()
+        binder = Binder(key=key, secret=secret)
 
         self.spaces = binder.bind(
             uri='/v1/spaces.json',
