@@ -7,13 +7,6 @@ def _make_uri(*args):
     return '/{0}'.format('/'.join(params))
 
 
-def _make_getter(test_case, uri):
-    def getter(url, **req_kwargs):
-        test_case.assertEqual('https://api.assembla.com{0}'.format(uri), url)
-        return MockResponse()
-    return getter
-
-
 class MockRequest(object):
     def __init__(self, test_case, uri):
         self.test_case = test_case
@@ -29,12 +22,14 @@ class MockResponse(object):
 
 
 class BinderTest(unittest.TestCase):
+    def setUp(self):
+        self.binder = binder.Binder()
+
     def test_uri(self):
         uri = _make_uri('space')
         space_id = 'axk9jBJ64'
 
-        handler = binder.bind(uri=uri, model=models.Model)
-                              # getter=MockRequest(self, uri.format(space_id=space_id)).get)
+        handler = self.binder.bind(uri=uri, model=models.Model)
         binder.requests.get = MockRequest(self, uri.format(space_id=space_id)).get
         handler(space_id=space_id)
 
@@ -45,11 +40,11 @@ class BinderTest(unittest.TestCase):
         space_id = 'axk9jBJ64'
         milestone_id = 1
 
-        handler = binder.bind(uri=uri, model=models.Model)
+        handler = self.binder.bind(uri=uri, model=models.Model)
         binder.requests.get = MockRequest(self, uri[0].format(space_id=space_id)).get
         handler(space_id=space_id)
 
-        handler = binder.bind(uri=uri, model=models.Model)
+        handler = self.binder.bind(uri=uri, model=models.Model)
         binder.requests.get = MockRequest(self, uri[1].format(space_id=space_id, milestone_id=milestone_id)).get
         handler(space_id=space_id, milestone_id=milestone_id)
 

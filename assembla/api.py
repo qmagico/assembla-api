@@ -1,8 +1,11 @@
-from . import binder, models
+from . import models
+from .binder import Binder
 
 
 class API(object):
     def __init__(self):
+        binder = Binder()
+
         self.spaces = binder.bind(
             uri='/v1/spaces.json',
             model=models.Space)
