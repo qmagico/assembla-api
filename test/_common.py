@@ -25,6 +25,14 @@ model_names = {
 }
 
 
+class MockBase(object):
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        pass
+
+
 class MockAPI(object):
     def __getattr__(self, attr):
         if not attr in model_names:

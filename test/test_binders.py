@@ -1,4 +1,4 @@
-from ._common import unittest
+from ._common import unittest, MockBase
 from assembla import binder, models
 
 
@@ -7,12 +7,9 @@ def _make_uri(*args):
     return '/{0}'.format('/'.join(params))
 
 
-class MockRequest(object):
-    def __init__(self, test_case, uri):
-        self.test_case = test_case
-        self.url = 'https://api.assembla.com{0}'.format(uri)
-
+class MockRequest(MockBase):
     def get(self, url, **kwargs):
+        self.uri = '/' + url.split('/', 3)[3]
         return MockResponse()
 
 
@@ -30,8 +27,9 @@ class BinderTest(unittest.TestCase):
         space_id = 'axk9jBJ64'
 
         handler = self.binder.bind(uri=uri, model=models.Model)
-        binder.requests.get = MockRequest(self, uri.format(space_id=space_id)).get
-        handler(space_id=space_id)
+        with MockRequest() as binder.requests:
+            handler(space_id=space_id)
+            self.assertEqual(binder.requests.uri, uri.format(space_id=space_id))
 
     def test_multi_uri(self):
         uri = []
@@ -41,12 +39,12 @@ class BinderTest(unittest.TestCase):
         milestone_id = 1
 
         handler = self.binder.bind(uri=uri, model=models.Model)
-        binder.requests.get = MockRequest(self, uri[0].format(space_id=space_id)).get
-        handler(space_id=space_id)
+        with MockRequest() as binder.requests:
+            handler(space_id=space_id)
+            self.assertEqual(binder.requests.uri, uri[0].format(space_id=space_id))
 
-        handler = self.binder.bind(uri=uri, model=models.Model)
-        binder.requests.get = MockRequest(self, uri[1].format(space_id=space_id, milestone_id=milestone_id)).get
-        handler(space_id=space_id, milestone_id=milestone_id)
+            handler(space_id=space_id, milestone_id=milestone_id)
+            self.assertEqual(binder.requests.uri, uri[1].format(space_id=space_id, milestone_id=milestone_id))
 
 
 def suite():
