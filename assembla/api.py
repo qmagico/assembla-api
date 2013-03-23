@@ -1,9 +1,12 @@
+import os
 from . import models
 from .binder import Binder
 
 
 class API(object):
-    def __init__(self):
+    def __init__(self, key=None, secret=None):
+        key = key or os.environ.get('ASSEMBLA_KEY', '')
+        secret = secret or os.environ.get('ASSEMBLA_SECRET', '')
         binder = Binder()
 
         self.spaces = binder.bind(

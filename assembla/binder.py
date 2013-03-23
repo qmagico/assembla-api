@@ -1,4 +1,3 @@
-import os
 import re
 import requests
 
@@ -8,9 +7,9 @@ class ParamCountError(Exception):
 
 
 class Binder(object):
-    def __init__(self, key=None, secret=None):
-        self.key = key or os.environ.get('ASSEMBLA_KEY', '')
-        self.secret = secret or os.environ.get('ASSEMBLA_SECRET', '')
+    def __init__(self, key='', secret=''):
+        self.key = key
+        self.secret = secret
 
     def __fetch(self, uri, model):
         headers = {'X-Api-Key': self.key, 'X-Api-Secret': self.secret}
