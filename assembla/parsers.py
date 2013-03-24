@@ -32,6 +32,15 @@ def parse(json, api=None):
         'assigned_to_id',
     ]
 
+    foreign_fields = [
+        'component_id',
+        'milestone_id',
+        'space_id',
+        'space_tool_id',
+        'task_id',
+        'ticket_id',
+    ]
+
     data = {}
 
     # imported here to avoid cyclic dependency
@@ -44,35 +53,10 @@ def parse(json, api=None):
             if value:
                 value = api.user(id=value)
 
-        elif key == 'space_id':
-            key = 'space'
+        elif key in foreign_fields:
+            key = key.replace('_id', '')
             if value:
-                value = api.space(id=value)
-
-        elif key == 'space_tool_id':
-            key = 'space_tool'
-            if value:
-                value = api.space_tool(id=value)
-
-        elif key == 'ticket_id':
-            key = 'ticket'
-            if value:
-                value = api.ticket(id=value)
-
-        elif key == 'task_id':
-            key = 'task'
-            if value:
-                value = api.task(id=value)
-
-        elif key == 'milestone_id':
-            key = 'milestone'
-            if value:
-                value = api.milestone(id=value)
-
-        elif key == 'component_id':
-            key = 'component'
-            if value:
-                value = api.component(id=value)
+                value = getattr(api, key)(id=value)
 
         elif key in float_fields:
             if value:
