@@ -1,4 +1,4 @@
-from ._common import unittest, MockBase
+from ._common import unittest, mock
 from assembla import binder, models
 
 
@@ -7,31 +7,29 @@ def _make_uri(*args):
     return '/{0}'.format('/'.join(params))
 
 
-class MockRequest(MockBase):
-    def get(self, url, **kwargs):
-        self.uri = '/' + url.split('/', 3)[3]
-        return MockResponse()
+def _make_url(uri, **kwargs):
+    return 'https://api.assembla.com' + uri.format(**kwargs)
 
 
-class MockResponse(object):
-    def json(self):
-        return {}
+def _get_url(mock):
+    args, _ = mock.call_args
+    return args[0]
 
 
+@mock.patch.object(binder.requests, 'get', spec=True)
 class BinderTest(unittest.TestCase):
     def setUp(self):
         self.binder = binder.Binder()
 
-    def test_uri(self):
+    def test_uri(self, mock):
         uri = _make_uri('space')
         space_id = 'axk9jBJ64'
 
         handler = self.binder.bind(uri=uri, model=models.Model)
-        with MockRequest() as binder.requests:
-            handler(space_id=space_id)
-            self.assertEqual(binder.requests.uri, uri.format(space_id=space_id))
+        handler(space_id=space_id)
+        self.assertEqual(_get_url(mock), _make_url(uri, space_id=space_id))
 
-    def test_multi_uri(self):
+    def test_multi_uri(self, mock):
         uri = []
         uri.append(_make_uri('space'))
         uri.append(_make_uri('space', 'milestone'))
@@ -39,12 +37,12 @@ class BinderTest(unittest.TestCase):
         milestone_id = 1
 
         handler = self.binder.bind(uri=uri, model=models.Model)
-        with MockRequest() as binder.requests:
-            handler(space_id=space_id)
-            self.assertEqual(binder.requests.uri, uri[0].format(space_id=space_id))
 
-            handler(space_id=space_id, milestone_id=milestone_id)
-            self.assertEqual(binder.requests.uri, uri[1].format(space_id=space_id, milestone_id=milestone_id))
+        handler(space_id=space_id)
+        self.assertEqual(_get_url(mock), _make_url(uri[0], space_id=space_id))
+
+        handler(space_id=space_id, milestone_id=milestone_id)
+        self.assertEqual(_get_url(mock), _make_url(uri[1], space_id=space_id, milestone_id=milestone_id))
 
 
 def suite():
