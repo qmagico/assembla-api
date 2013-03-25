@@ -22,12 +22,20 @@ class API(object):
             model=models.Space)
 
         self.space = self.bind(
-            uri='/v1/spaces/{id}.json',
+            uri='/v1/spaces/{space_id}.json',
             model=models.Space)
 
         self.tickets = self.bind(
             uri=['/v1/spaces/{space_id}/tickets.json', '/v1/spaces/{space_id}/tickets/milestone/{milestone_id}.json'],
             model=models.Ticket)
+
+        self.ticket_status = self.bind(
+            uri=['/v1/spaces/{space_id}/tickets/statuses/{status_id}'],
+            model=models.TicketStatus)
+
+        self.milestones = self.bind(
+            uri=['/v1/spaces/{space_id}/milestones/all'],
+            model=models.Milestone)
 
         self.user = self.bind(
             uri=['/v1/users/{user_id}.json', '/v1/users/{user_login}.json'],
