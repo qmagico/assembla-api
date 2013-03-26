@@ -58,7 +58,7 @@ class BindingTest(unittest.TestCase):
 
     def test_headers(self, request):
         handler = self.api.bind(uri='/', model=models.Model)
-        headers = {'X-Api-Key': os.environ.get('ASSEMBLA_KEY', ''), 'X-Api-Secret': os.environ.get('ASSEMBLA_KEY', '')}
+        headers = {'X-Api-Key': os.environ.get('ASSEMBLA_KEY', ''), 'X-Api-Secret': os.environ.get('ASSEMBLA_SECRET', '')}
         handler()
         self.assertEqual(_get_headers(request), headers)
 
