@@ -62,10 +62,3 @@ class ParserTest(unittest.TestCase):
             parsers.parse({'space_tool_id': 'aFsIka2SGr4j8fadbNA33N'}, api=MockAPI()).get('space_tool'),
             models.SpaceTool
         )
-
-
-def suite():
-    return unittest.TestLoader().loadTestsFromName(__name__)
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')

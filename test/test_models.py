@@ -348,10 +348,3 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(None, space_tool.watcher_permissions)
         self.assertEquals({'state': 'failed', 'vcs_url': None}, space_tool.settings)
         self.assertEquals('aFsIka2SGr4j8fadbNA33N', space_tool.id)
-
-
-def suite():
-    return unittest.TestLoader().loadTestsFromName(__name__)
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')

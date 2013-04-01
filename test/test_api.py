@@ -114,10 +114,3 @@ class APITest(unittest.TestCase):
         self.assertTrue(isinstance(tickets, list))
         for ticket in tickets:
             self.assertTrue(isinstance(ticket, models.Ticket))
-
-
-def suite():
-    return unittest.TestLoader().loadTestsFromName(__name__)
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
