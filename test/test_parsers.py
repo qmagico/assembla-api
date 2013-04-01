@@ -33,6 +33,11 @@ class ParserTest(unittest.TestCase):
             models.User
         )
 
+        self.assertIsInstance(
+            parsers.parse({'updated_by': 'apr9bascyr4Q7K5bfBjDYC'}, api=MockAPI()).get('updated_by'),
+            models.User
+        )
+
     def test_ticket_fields(self):
         self.assertIsInstance(
             parsers.parse({'ticket_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=MockAPI()).get('ticket'),
