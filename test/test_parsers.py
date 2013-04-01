@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from ._common import unittest, MockAPI
+from test import unittest
+from test.utils import MockAPI
 from assembla import parsers, models
 
 
@@ -67,10 +68,3 @@ class ParserTest(unittest.TestCase):
             parsers.parse({'space_tool_id': 'aFsIka2SGr4j8fadbNA33N'}, api=MockAPI()).get('space_tool'),
             models.SpaceTool
         )
-
-
-def suite():
-    return unittest.TestLoader().loadTestsFromName(__name__)
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='suite')
