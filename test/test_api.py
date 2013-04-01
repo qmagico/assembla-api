@@ -1,5 +1,6 @@
-from ._common import unittest, mock
 import os
+
+from test import unittest, mock
 from assembla import api, models
 
 

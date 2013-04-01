@@ -1,7 +1,8 @@
 import os
 import re
 import requests
-from . import models
+
+from assembla import models
 
 
 class AuthenticationError(Exception):
