@@ -4,6 +4,7 @@ try:
 except ImportError:
     import unittest
 
+# Use the standard library mock on Python > 3.3
 try:
     import mock
 except ImportError:
