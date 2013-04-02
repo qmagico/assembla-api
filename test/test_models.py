@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from test import unittest
+from test import unittest, mock, util
 from test.util import MockAPI
-from assembla import models
+from assembla import api, models
 
 
 class ModelsTest(unittest.TestCase):
@@ -351,3 +351,25 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(None, space_tool.watcher_permissions)
         self.assertEquals({'state': 'failed', 'vcs_url': None}, space_tool.settings)
         self.assertEquals('aFsIka2SGr4j8fadbNA33N', space_tool.id)
+
+    @mock.patch.object(api.requests, 'get')
+    def test_lazy_loading(self, request):
+        request.return_value = util.make_response({
+            'id': 'b584'
+        })
+
+        ticket_dict = {
+            'space_id': 'b000',
+            'reporter_id': 'b001',
+        }
+
+        ticket = models.Ticket.instantiate_one(ticket_dict, api=api.API())
+        self.assertIsInstance(ticket.space, models.Space)
+        self.assertIsInstance(ticket.reporter, models.User)
+        self.assertIsNone(request.call_args)
+
+        self.assertEqual(ticket.space.id, 'b584')
+        self.assertEqual(util.request_call(request)[0], 'https://api.assembla.com/v1/spaces/b000.json')
+
+        self.assertEqual(ticket.reporter.id, 'b584')
+        self.assertEqual(util.request_call(request)[0], 'https://api.assembla.com/v1/users/b001.json')

@@ -60,26 +60,45 @@ class API(object):
                 return False
         return True
 
-    def _fetch(self, uri, model):
-        headers = {'X-Api-Key': self.key, 'X-Api-Secret': self.secret}
-        response = requests.get('https://api.assembla.com{0}'.format(uri), headers=headers)
+    def _fetch(self, uri, model=None):
+        def do_fetch():
+            headers = {'X-Api-Key': self.key, 'X-Api-Secret': self.secret}
+            response = requests.get('https://api.assembla.com{0}'.format(uri), headers=headers)
 
-        if response.status_code == 401:
-            raise exceptions.AuthenticationError('Authentication Failed')
+            if response.status_code == 401:
+                raise exceptions.AuthenticationError('Authentication Failed')
 
-        if isinstance(response.json(), list):
-            return model.instantiate_many(response.json(), self)
-        return model.instantiate_one(response.json(), self)
+            return self, response.json()
+
+        if model is None:
+            return do_fetch
+
+        _, json = do_fetch()
+        if isinstance(json, list):
+            return model.instantiate_many(json, self)
+        return model.instantiate_one(json, self)
 
     def bind(self, **config):
         uri_list = config['uri'] if isinstance(config['uri'], list) else [config['uri']]
         self._validate(uri_list)
 
         def handler(**kwargs):
-            uri = [uri for uri in uri_list if self._check_uri(uri, kwargs.keys())]
+            lazy = kwargs.get('lazy', False)
+            if 'lazy' in kwargs.keys():
+                del kwargs['lazy']
 
-            if len(uri) != 1:
-                raise exceptions.ParamCountError()
-            return self._fetch(uri[0].format(**kwargs), config['model'])
+            if not isinstance(config['uri'], list):
+                config['uri'] = [config['uri']]
+
+            try:
+                uri = next(uri for uri in config['uri'] if self._check_uri(uri, kwargs.keys()))
+                uri = uri.format(**kwargs)
+            except StopIteration:
+                raise exceptions.ParamCountError('No URI matching the passed params')
+
+            if lazy:
+                model = config['model']
+                return model(lazy_load=self._fetch(uri))
+            return self._fetch(uri, model=config['model'])
 
         return handler
