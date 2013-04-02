@@ -9,13 +9,13 @@ class ParserTest(unittest.TestCase):
     def test_date_fields(self):
         self.assertEquals(
             {'restricted_date': datetime(2012, 1, 3, 0, 0).date()},
-            parsers.parse({'restricted_date': '2012-01-03'})
+            parsers.parse({'restricted_date': '2012-01-03'}, api=MockAPI())
         )
 
     def test_datetime_fields(self):
         self.assertEquals(
             {'created_on': datetime(2011, 9, 2, 10, 21, 48)},
-            parsers.parse({'created_on': '2011-09-02T10:21:48Z'})
+            parsers.parse({'created_on': '2011-09-02T10:21:48Z'}, api=MockAPI())
         )
 
     def test_user_fields(self):

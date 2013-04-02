@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def parse(json, api=None):
+def parse(json, api):
     datetime_fields = [
         'applied_at',
         'begin_at',
@@ -44,10 +44,6 @@ def parse(json, api=None):
     ]
 
     data = {}
-
-    # imported here to avoid cyclic dependency
-    from .api import API
-    api = api or API()
 
     for key, value in json.items():
         if key in user_fields:

@@ -15,7 +15,7 @@ class ModelsTest(unittest.TestCase):
             'organization': 'Assembla',
             'im': {'type': 'Skype', 'id': 'dsa'}
         }
-        user = models.User.instantiate_one(user_dict)
+        user = models.User.instantiate_one(user_dict, api=MockAPI())
 
         self.assertEquals('112233', user.phone)
         self.assertEquals('test_1', user.login)
@@ -44,7 +44,7 @@ class ModelsTest(unittest.TestCase):
             }
         ]
 
-        users = models.User.instantiate_many(users_dict)
+        users = models.User.instantiate_many(users_dict, api=MockAPI())
 
         self.assertEquals(2, len(users))
         self.assertIsInstance(users[0], models.User)
@@ -84,7 +84,7 @@ class ModelsTest(unittest.TestCase):
             'watcher_permissions': 1
         }
 
-        space = models.Space.instantiate_one(space_dict)
+        space = models.Space.instantiate_one(space_dict, api=MockAPI())
 
         self.assertEquals(1, space.status)
         self.assertEquals(None, space.banner_height)
@@ -309,7 +309,7 @@ class ModelsTest(unittest.TestCase):
             'name': 'asd'
         }
 
-        component = models.Component.instantiate_one(component_dict)
+        component = models.Component.instantiate_one(component_dict, api=MockAPI())
 
         self.assertEquals(16, component.id)
         self.assertEquals('asd', component.name)
