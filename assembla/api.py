@@ -65,8 +65,8 @@ class API(object):
             raise AuthenticationError('Authentication Failed')
 
         if isinstance(response.json(), list):
-            return model.parse_list(response.json())
-        return model.parse(response.json())
+            return model.instantiate_many(response.json())
+        return model.instantiate_one(response.json())
 
     def bind(self, **config):
         def handler(**kwargs):

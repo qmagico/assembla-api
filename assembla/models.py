@@ -3,7 +3,7 @@ from assembla import parsers
 
 class Model(object):
     @classmethod
-    def parse(cls, json, api=None):
+    def instantiate_one(cls, json, api=None):
         attrs = parsers.parse(json, api=api)
         instance = cls()
         for key, value in attrs.items():
@@ -11,8 +11,8 @@ class Model(object):
         return instance
 
     @classmethod
-    def parse_list(cls, json):
-        return [cls.parse(entity) for entity in json]
+    def instantiate_many(cls, json):
+        return [cls.instantiate_one(entity) for entity in json]
 
 
 class User(Model):

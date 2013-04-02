@@ -15,7 +15,7 @@ class ModelsTest(unittest.TestCase):
             'organization': 'Assembla',
             'im': {'type': 'Skype', 'id': 'dsa'}
         }
-        user = models.User.parse(user_dict)
+        user = models.User.instantiate_one(user_dict)
 
         self.assertEquals('112233', user.phone)
         self.assertEquals('test_1', user.login)
@@ -44,7 +44,7 @@ class ModelsTest(unittest.TestCase):
             }
         ]
 
-        users = models.User.parse_list(users_dict)
+        users = models.User.instantiate_many(users_dict)
 
         self.assertEquals(2, len(users))
         self.assertIsInstance(users[0], models.User)
@@ -84,7 +84,7 @@ class ModelsTest(unittest.TestCase):
             'watcher_permissions': 1
         }
 
-        space = models.Space.parse(space_dict)
+        space = models.Space.instantiate_one(space_dict)
 
         self.assertEquals(1, space.status)
         self.assertEquals(None, space.banner_height)
@@ -148,7 +148,7 @@ class ModelsTest(unittest.TestCase):
             'working_hours': 0.0
         }
 
-        ticket = models.Ticket.parse(ticket_dict, api=MockAPI())
+        ticket = models.Ticket.instantiate_one(ticket_dict, api=MockAPI())
 
         self.assertEquals(8, ticket.number)
         self.assertEquals({'Text Field': '', 'list': ''}, ticket.custom_fields)
@@ -189,7 +189,7 @@ class ModelsTest(unittest.TestCase):
             'id': 2
         }
 
-        time_entry = models.TimeEntry.parse(time_entry_dict, api=MockAPI())
+        time_entry = models.TimeEntry.instantiate_one(time_entry_dict, api=MockAPI())
 
         self.assertEquals(1, 1)
         self.assertEquals(datetime(2012, 12, 31, 16, 1, 17), time_entry.created_at)
@@ -222,7 +222,7 @@ class ModelsTest(unittest.TestCase):
             'space_id': 'b89TL8MYWr4id7adbNA33N'
         }
 
-        milestone = models.Milestone.parse(milestone_dict, api=MockAPI())
+        milestone = models.Milestone.instantiate_one(milestone_dict, api=MockAPI())
 
         self.assertEquals(0, milestone.planner_type)
         self.assertEquals('sdfsd', milestone.description)
@@ -262,7 +262,7 @@ class ModelsTest(unittest.TestCase):
             'id': 7
         }
 
-        task = models.Task.parse(task_dict, api=MockAPI())
+        task = models.Task.instantiate_one(task_dict, api=MockAPI())
 
         self.assertEquals(False, task.billed)
         self.assertEquals(datetime(2012, 12, 17, 8, 52, 20), task.created_at)
@@ -292,7 +292,7 @@ class ModelsTest(unittest.TestCase):
             'updated_at': '2012-09-11T13:09:26Z'
         }
 
-        ticket_status = models.TicketStatus.parse(ticket_status_dict, api=MockAPI())
+        ticket_status = models.TicketStatus.instantiate_one(ticket_status_dict, api=MockAPI())
 
         self.assertEquals(1, ticket_status.id)
         self.assertIsInstance(ticket_status.space_tool, models.SpaceTool)
@@ -309,7 +309,7 @@ class ModelsTest(unittest.TestCase):
             'name': 'asd'
         }
 
-        component = models.Component.parse(component_dict)
+        component = models.Component.instantiate_one(component_dict)
 
         self.assertEquals(16, component.id)
         self.assertEquals('asd', component.name)
@@ -333,7 +333,7 @@ class ModelsTest(unittest.TestCase):
             'id': 'aFsIka2SGr4j8fadbNA33N',
         }
 
-        space_tool = models.SpaceTool.parse(space_tool_dict, api=MockAPI())
+        space_tool = models.SpaceTool.instantiate_one(space_tool_dict, api=MockAPI())
 
         self.assertEquals('SubversionTool', space_tool.type)
         self.assertEquals(12, space_tool.tool_id)
