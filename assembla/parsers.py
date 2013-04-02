@@ -30,7 +30,8 @@ def parse(json, api=None):
         'user_id',
         'reporter_id',
         'assigned_to_id',
-        'updated_by'
+        'updated_by',
+        'created_by'
     ]
 
     foreign_fields = [
