@@ -1,16 +1,8 @@
 import os
-import re
 import requests
 
-from assembla import models
-
-
-class AuthenticationError(Exception):
-    pass
-
-
-class ParamCountError(Exception):
-    pass
+from assembla import models, exceptions
+from test import util
 
 
 class API(object):
@@ -23,7 +15,7 @@ class API(object):
             model=models.Space)
 
         self.space = self.bind(
-            uri='/v1/spaces/{space_id}.json',
+            uri='/v1/spaces/{id}.json',
             model=models.Space)
 
         self.tickets = self.bind(
@@ -31,7 +23,7 @@ class API(object):
             model=models.Ticket)
 
         self.ticket_status = self.bind(
-            uri=['/v1/spaces/{space_id}/tickets/statuses/{status_id}'],
+            uri='/v1/spaces/{space_id}/tickets/statuses/{id}',
             model=models.TicketStatus)
 
         self.milestones = self.bind(
@@ -39,15 +31,26 @@ class API(object):
             model=models.Milestone)
 
         self.user = self.bind(
-            uri=['/v1/users/{user_id}.json', '/v1/users/{user_login}.json'],
+            uri=['/v1/users/{id}.json', '/v1/users/{login}.json'],
             model=models.User)
 
         self.users = self.bind(
             uri='/v1/spaces/{space_id}/users.json',
             model=models.User)
 
+    def _validate(self, uri_list):
+        all_params = []
+        for uri in uri_list:
+            params = util.uri_params(uri)
+            if len(set(params)) != len(params):
+                raise exceptions.URIError('Duplicate params')
+
+            if set(params) in all_params:
+                raise exceptions.URIError('More than 1 URI with the same params')
+            all_params.append(set(params))
+
     def _check_uri(self, uri, fields):
-        params = [param.strip('{}') for param in re.compile('{\w+}').findall(uri)]
+        params = util.uri_params(uri)
 
         if len(params) != len(fields):
             return False
@@ -62,19 +65,21 @@ class API(object):
         response = requests.get('https://api.assembla.com{0}'.format(uri), headers=headers)
 
         if response.status_code == 401:
-            raise AuthenticationError('Authentication Failed')
+            raise exceptions.AuthenticationError('Authentication Failed')
 
         if isinstance(response.json(), list):
             return model.instantiate_many(response.json(), self)
         return model.instantiate_one(response.json(), self)
 
     def bind(self, **config):
+        uri_list = config['uri'] if isinstance(config['uri'], list) else [config['uri']]
+        self._validate(uri_list)
+
         def handler(**kwargs):
-            uri_list = config['uri'] if isinstance(config['uri'], list) else [config['uri']]
             uri = [uri for uri in uri_list if self._check_uri(uri, kwargs.keys())]
 
             if len(uri) != 1:
-                raise ParamCountError()
+                raise exceptions.ParamCountError()
             return self._fetch(uri[0].format(**kwargs), config['model'])
 
         return handler

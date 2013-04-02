@@ -1,3 +1,6 @@
+import re
+
+from test import mock
 from assembla import models
 
 model_names = {
@@ -17,7 +20,25 @@ class MockAPI(object):
             raise NameError('No method called "{0}"'.format(attr))
         instance = model_names.get(attr)()
 
-        def method(id):
+        def method(id, lazy=None):
             instance.id = id
             return instance
         return method
+
+
+def make_response(return_value):
+    response = mock.Mock()
+    response.status_code = 200
+    response.json = mock.Mock()
+    response.json.return_value = return_value
+    return response
+
+
+def request_call(mock):
+    args, kwargs = mock.call_args
+    return args[0], kwargs['headers']
+
+
+def uri_params(uri):
+    params = [param.strip('{}') for param in re.compile('{\w+}').findall(uri)]
+    return params
