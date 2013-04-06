@@ -49,12 +49,12 @@ def parse(json, api):
         if key in user_fields:
             key = key.replace('_id', '')
             if value:
-                value = api.user(id=value)
+                value = api.user(id=value, lazy=True)
 
         elif key in foreign_fields:
             key = key.replace('_id', '')
             if value:
-                value = getattr(api, key)(id=value)
+                value = getattr(api, key)(id=value, lazy=True)
 
         elif key in float_fields:
             if value:
