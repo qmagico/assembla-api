@@ -1,4 +1,4 @@
-from test import mock
+from . import mock
 from assembla import models
 
 model_names = {

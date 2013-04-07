@@ -1,7 +1,7 @@
 from datetime import datetime
 
-from test import unittest
-from test.util import MockAPI
+from . import unittest
+from .util import MockAPI
 from assembla import parsers, models
 
 

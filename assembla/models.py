@@ -1,4 +1,4 @@
-from assembla import parsers
+from . import parsers
 
 
 class Model(object):
