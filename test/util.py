@@ -1,5 +1,3 @@
-import re
-
 from test import mock
 from assembla import models
 
@@ -37,8 +35,3 @@ def make_response(return_value):
 def request_call(mock):
     args, kwargs = mock.call_args
     return args[0], kwargs['headers']
-
-
-def uri_params(uri):
-    params = [param.strip('{}') for param in re.compile('{\w+}').findall(uri)]
-    return params

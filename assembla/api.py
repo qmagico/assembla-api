@@ -1,14 +1,12 @@
-import os
 import requests
 
-from assembla import models, exceptions
-from test import util
+from . import models, exceptions, util
 
 
 class API(object):
     def __init__(self, key=None, secret=None):
-        self.key = key or os.environ.get('ASSEMBLA_KEY', '')
-        self.secret = secret or os.environ.get('ASSEMBLA_SECRET', '')
+        self.key = key
+        self.secret = secret
 
         self.spaces = self.bind(
             uri='/v1/spaces.json',
