@@ -35,8 +35,6 @@ def parse(json, api):
     ]
 
     foreign_fields = [
-        'component_id',
-        'milestone_id',
         'space_id',
         'space_tool_id',
         'task_id',

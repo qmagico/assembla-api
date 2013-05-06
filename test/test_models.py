@@ -303,17 +303,6 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(datetime(2012, 9, 11, 13, 9, 26), ticket_status.created_at)
         self.assertEquals(datetime(2012, 9, 11, 13, 9, 26), ticket_status.updated_at)
 
-    def test_component_instantiation(self):
-        component_dict = {
-            'id': 16,
-            'name': 'asd'
-        }
-
-        component = models.Component.instantiate_one(component_dict, api=MockAPI())
-
-        self.assertEquals(16, component.id)
-        self.assertEquals('asd', component.name)
-
     def test_space_tool_instantiation(self):
         space_tool_dict = {
             'type': 'SubversionTool',

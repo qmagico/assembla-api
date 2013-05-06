@@ -56,18 +56,6 @@ class ParserTest(unittest.TestCase):
             models.Task
         )
 
-    def test_milestone_fields(self):
-        self.assertIsInstance(
-            parsers.parse({'milestone_id': 'bRxpnOMYWr4id7adbNA33N'}, api=MockAPI()).get('milestone'),
-            models.Milestone
-        )
-
-    def test_component_fields(self):
-        self.assertIsInstance(
-            parsers.parse({'component_id': 'bRxpnOMYWr4id7adbNA33N'}, api=MockAPI()).get('component'),
-            models.Component
-        )
-
     def test_space_tool_fields(self):
         self.assertIsInstance(
             parsers.parse({'space_tool_id': 'aFsIka2SGr4j8fadbNA33N'}, api=MockAPI()).get('space_tool'),
