@@ -25,7 +25,7 @@ class API(object):
             model=models.TicketStatus)
 
         self.milestones = self.bind(
-            uri=['/v1/spaces/{space_id}/milestones/all'],
+            uri=['/v1/spaces/{space_id}/milestones/upcoming'],
             model=models.Milestone)
 
         self.user = self.bind(
