@@ -17,7 +17,7 @@ class API(object):
             model=models.Space)
 
         self.tickets = self.bind(
-            uri=['/v1/spaces/{space_id}/tickets.json', '/v1/spaces/{space_id}/tickets/milestone/{milestone_id}.json'],
+            uri=['/v1/spaces/{space_id}/tickets.json', '/v1/spaces/{space_id}/tickets/milestone/{milestone_id}.json?ticket_status=all'],
             model=models.Ticket)
 
         self.ticket_status = self.bind(
