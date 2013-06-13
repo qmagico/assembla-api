@@ -20,6 +20,10 @@ class API(object):
             uri=['/v1/spaces/{space_id}/tickets.json', '/v1/spaces/{space_id}/tickets/milestone/{milestone_id}.json?ticket_status=all&per_page=150'],
             model=models.Ticket)
 
+        self.ticket = self.bind(
+            uri='/v1/spaces/{space_id}/tickets/{id}.json',
+            model=models.Ticket)
+
         self.ticket_status = self.bind(
             uri='/v1/spaces/{space_id}/tickets/statuses/{id}',
             model=models.TicketStatus)
