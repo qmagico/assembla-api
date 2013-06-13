@@ -52,7 +52,10 @@ def parse(json, api):
         elif key in foreign_fields:
             key = key.replace('_id', '')
             if value:
-                value = getattr(api, key)(id=value, lazy=True)
+                if key == 'ticket':
+                    value = api.ticket(id=value, space_id=json['space_id'], lazy=True)
+                else:
+                    value = getattr(api, key)(id=value, lazy=True)
 
         elif key in float_fields:
             if value:
