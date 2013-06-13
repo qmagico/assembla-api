@@ -102,3 +102,12 @@ class APITest(unittest.TestCase):
         self.assertTrue(isinstance(tickets, list))
         for ticket in tickets:
             self.assertTrue(isinstance(ticket, models.Ticket))
+
+    def test_task(self, request):
+        request.return_value = util.make_response([{}, {}])
+
+        # _from because from is a reserved word
+        tasks = self.api.tasks(_from='12-12-2012', to='24-12-2012')
+        self.assertTrue(isinstance(tasks, list))
+        for task in tasks:
+            self.assertTrue(isinstance(task, models.Task))

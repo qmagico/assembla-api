@@ -28,6 +28,11 @@ class API(object):
             uri=['/v1/spaces/{space_id}/milestones/upcoming'],
             model=models.Milestone)
 
+        self.tasks = self.bind(
+            # _from because from is a reserved word
+            uri='/v1/tasks.json?per_page=150&from={_from}&to{to}',
+            model=models.Task)
+
         self.user = self.bind(
             uri=['/v1/users/{id}.json', '/v1/users/{login}.json'],
             model=models.User)
