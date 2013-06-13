@@ -37,8 +37,7 @@ def parse(json, api):
     foreign_fields = [
         'space_id',
         'space_tool_id',
-        'task_id',
-        'ticket_id',
+        'task_id'
     ]
 
     data = {}
