@@ -87,27 +87,27 @@ class APITest(unittest.TestCase):
     def test_spaces(self, request):
         request.return_value = util.make_response([{}, {}])
         spaces = self.api.spaces()
-        self.assertTrue(isinstance(spaces, list))
+        self.assertIsInstance(spaces, list)
         for space in spaces:
-            self.assertTrue(isinstance(space, models.Space))
+            self.assertIsInstance(space, models.Space)
 
     def test_space(self, request):
         request.return_value = util.make_response({})
         space = self.api.space(id=1)
-        self.assertTrue(isinstance(space, models.Space))
+        self.assertIsInstance(space, models.Space)
 
     def test_tickets(self, request):
         request.return_value = util.make_response([{}, {}])
         tickets = self.api.tickets(space_id=1)
-        self.assertTrue(isinstance(tickets, list))
+        self.assertIsInstance(tickets, list)
         for ticket in tickets:
-            self.assertTrue(isinstance(ticket, models.Ticket))
+            self.assertIsInstance(ticket, models.Ticket)
 
     def test_task(self, request):
         request.return_value = util.make_response([{}, {}])
 
         # _from because from is a reserved word
         tasks = self.api.tasks(_from='12-12-2012', to='24-12-2012')
-        self.assertTrue(isinstance(tasks, list))
+        self.assertIsInstance(tasks, list)
         for task in tasks:
-            self.assertTrue(isinstance(task, models.Task))
+            self.assertIsInstance(task, models.Task)
