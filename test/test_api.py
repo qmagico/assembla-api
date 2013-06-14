@@ -103,6 +103,11 @@ class APITest(unittest.TestCase):
         for ticket in tickets:
             self.assertIsInstance(ticket, models.Ticket)
 
+    def test_ticket(self, request):
+        request.return_value = util.make_response({})
+        ticket = self.api.ticket(space_id=1, id=1)
+        self.assertIsInstance(ticket, models.Ticket)
+
     def test_task(self, request):
         request.return_value = util.make_response([{}, {}])
 

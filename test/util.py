@@ -17,8 +17,8 @@ class MockAPI(object):
             raise NameError('No method called "{0}"'.format(attr))
         instance = model_names.get(attr)()
 
-        def method(id, lazy=None):
-            instance.id = id
+        def method(**kwargs):
+            instance.id = kwargs['id']
             return instance
         return method
 
