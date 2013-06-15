@@ -3,7 +3,7 @@ from setuptools import setup
 
 
 setup(name='assembla',
-      version='0.0.1',
+      version='0.0.2',
       description='Assembla API Wrapper',
       author=u'QMágico',
       test_suite='test.testall.suite',
