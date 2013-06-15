@@ -358,7 +358,13 @@ class ModelsTest(unittest.TestCase):
         self.assertIsNone(request.call_args)
 
         self.assertEqual(ticket.space.id, 'b584')
-        self.assertEqual(util.request_call(request)[0], 'https://api.assembla.com/v1/spaces/b000.json')
+        self.assertEqual(
+            util.request_call(request)[0],
+            'https://api.assembla.com/v1/spaces/b000.json'
+        )
 
         self.assertEqual(ticket.reporter.id, 'b584')
-        self.assertEqual(util.request_call(request)[0], 'https://api.assembla.com/v1/users/b001.json')
+        self.assertEqual(
+            util.request_call(request)[0],
+            'https://api.assembla.com/v1/users/b001.json'
+        )
