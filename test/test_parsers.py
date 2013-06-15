@@ -46,7 +46,11 @@ class ParserTest(unittest.TestCase):
 
     def test_ticket_fields(self):
         self.assertIsInstance(
-            parsers.parse({'ticket_id': 'apr9bascyr4Q7K5bfBjDYC', 'space_id': 'apr9bascyr4Q7K5bfBjDYC'}, api=MockAPI()).get('ticket'),
+            # TODO: Maybe, I don't have space_id
+            parsers.parse(
+                {'ticket_id': 'apr9bascyr4Q7K5bfBjDYC', 'space_id': 'apr9bascyr4Q7K5bfBjDYC'},
+                api=MockAPI()
+            ).get('ticket'),
             models.Ticket
         )
 

@@ -18,7 +18,12 @@ class BindingTest(unittest.TestCase):
 
     def test_check_uri(self, request):
         self.assertTrue(self.api._check_uri(_make_uri('space'), ['space_id']))
-        self.assertTrue(self.api._check_uri(_make_uri('space', 'milestone'), ['space_id', 'milestone_id']))
+        self.assertTrue(
+            self.api._check_uri(
+                _make_uri('space', 'milestone'),
+                ['space_id', 'milestone_id']
+            )
+        )
         self.assertFalse(self.api._check_uri(_make_uri('space'), ['space_id, milestone_id']))
         self.assertFalse(self.api._check_uri(_make_uri('space', 'milestone'), ['space_id']))
 
@@ -43,7 +48,10 @@ class BindingTest(unittest.TestCase):
         self.assertEqual(util.request_call(request)[0], _make_url(uri[0], space_id=space_id))
 
         handler(space_id=space_id, milestone_id=milestone_id)
-        self.assertEqual(util.request_call(request)[0], _make_url(uri[1], space_id=space_id, milestone_id=milestone_id))
+        self.assertEqual(
+            util.request_call(request)[0],
+            _make_url(uri[1], space_id=space_id, milestone_id=milestone_id)
+        )
 
     def test_headers(self, request):
         handler = self.api.bind(uri='/', model=models.Model)
@@ -75,8 +83,12 @@ class BindingTest(unittest.TestCase):
         self.assertRaises(exceptions.URIError, self.api.bind, uri='/{space}/{user}/{space}', model=models.Model)
 
     def test_duplicate_uri_params(self, request):
-        self.assertRaises(exceptions.URIError, self.api.bind, uri=['/{space}/user/{user}', '/{user}/space/{space}'],
-                          model=models.Model)
+        self.assertRaises(
+            exceptions.URIError,
+            self.api.bind,
+            uri=['/{space}/user/{user}', '/{user}/space/{space}'],
+            model=models.Model
+        )
 
 
 @mock.patch.object(api.requests, 'get')
