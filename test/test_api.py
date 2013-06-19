@@ -1,4 +1,14 @@
-from . import unittest, mock, util
+try:
+    import mock
+except ImportError:
+    from unittest import mock
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
+
+from . import util
 from assembla import api, models, exceptions
 
 

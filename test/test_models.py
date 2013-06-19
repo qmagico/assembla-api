@@ -1,6 +1,11 @@
+
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
+
 from datetime import datetime
 
-from . import unittest
 from assembla import models
 
 

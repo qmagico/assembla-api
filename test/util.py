@@ -1,4 +1,9 @@
-from . import mock
+
+try:
+    import mock
+except ImportError:
+    from unittest import mock
+
 from assembla import models
 
 model_names = {
