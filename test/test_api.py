@@ -106,6 +106,10 @@ class APITest(unittest.TestCase):
     def setUp(self):
         self.api = api.API()
 
+    def test_api_error_response(self, request):
+        request.return_value = util.make_response({'error': 'Message'})
+        self.assertRaises(exceptions.APIError, self.api.ticket, space_id='1', id='1')
+
     def test_spaces(self, request):
         request.return_value = util.make_response([{}, {}])
         spaces = self.api.spaces()

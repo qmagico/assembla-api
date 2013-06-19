@@ -78,6 +78,10 @@ class API(object):
             return self, response.json()
 
         _, json = do_fetch()
+
+        if 'error' in json:
+            raise exceptions.APIError("API rensponse is an error: '%s'", json['error'])
+
         if isinstance(json, list):
             return model.instantiate_many(json)
         return model.instantiate_one(json)

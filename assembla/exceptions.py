@@ -8,3 +8,7 @@ class URIError(Exception):
 
 class ParamCountError(Exception):
     pass
+
+
+class APIError(Exception):
+    pass
