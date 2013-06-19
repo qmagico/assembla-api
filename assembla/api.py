@@ -77,23 +77,16 @@ class API(object):
 
             return self, response.json()
 
-        if model is None:
-            return do_fetch
-
         _, json = do_fetch()
         if isinstance(json, list):
-            return model.instantiate_many(json, self)
-        return model.instantiate_one(json, self)
+            return model.instantiate_many(json)
+        return model.instantiate_one(json)
 
     def bind(self, **config):
         uri_list = config['uri'] if isinstance(config['uri'], list) else [config['uri']]
         self._validate(uri_list)
 
         def handler(**kwargs):
-            lazy = kwargs.get('lazy', False)
-            if 'lazy' in kwargs.keys():
-                del kwargs['lazy']
-
             if not isinstance(config['uri'], list):
                 config['uri'] = [config['uri']]
 
@@ -103,9 +96,6 @@ class API(object):
             except StopIteration:
                 raise exceptions.ParamCountError('No URI matching the passed params')
 
-            if lazy:
-                model = config['model']
-                return model(lazy_load=self._fetch(uri))
             return self._fetch(uri, model=config['model'])
 
         return handler

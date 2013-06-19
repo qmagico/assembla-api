@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-def parse(json, api):
+def parse(json):
     datetime_fields = [
         'applied_at',
         'begin_at',
@@ -26,39 +26,10 @@ def parse(json, api):
         'total_working_hours',
     ]
 
-    user_fields = [
-        'user_id',
-        'reporter_id',
-        'assigned_to_id',
-        'updated_by',
-        'created_by'
-    ]
-
-    foreign_fields = [
-        'space_id',
-        'space_tool_id',
-        'task_id',
-        'ticket_id',
-    ]
-
     data = {}
 
     for key, value in json.items():
-        if key in user_fields:
-            key = key.replace('_id', '')
-            if value:
-                value = api.user(id=value, lazy=True)
-
-        elif key in foreign_fields:
-            key = key.replace('_id', '')
-            if value:
-                if key == 'ticket':
-                    # TODO: Every time a want a ticket I have the space_id in json?
-                    value = api.ticket(space_id=json['space_id'], id=value, lazy=True)
-                else:
-                    value = getattr(api, key)(id=value, lazy=True)
-
-        elif key in float_fields:
+        if key in float_fields:
             if value:
                 value = float(value)
 

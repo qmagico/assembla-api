@@ -3,29 +3,16 @@ from . import parsers
 
 class Model(object):
     @classmethod
-    def instantiate_one(cls, json, api):
-        attrs = parsers.parse(json, api)
+    def instantiate_one(cls, json):
+        attrs = parsers.parse(json)
         instance = cls()
         for key, value in attrs.items():
             setattr(instance, key, value)
         return instance
 
     @classmethod
-    def instantiate_many(cls, json, api):
-        return [cls.instantiate_one(entity, api) for entity in json]
-
-    def __init__(self, lazy_load=None):
-        if lazy_load:
-            self.lazy_load = lazy_load
-
-    def __getattr__(self, name):
-        if name != 'lazy_load' and self.lazy_load:
-            api, json = self.lazy_load()
-            attrs = parsers.parse(json, api)
-            for key, value in attrs.items():
-                setattr(self, key, value)
-            delattr(self, 'lazy_load')
-            return getattr(self, name)
+    def instantiate_many(cls, json):
+        return [cls.instantiate_one(entity) for entity in json]
 
 
 class User(Model):

@@ -1,8 +1,7 @@
 from datetime import datetime
 
-from . import unittest, mock, util
-from .util import MockAPI
-from assembla import api, models
+from . import unittest
+from assembla import models
 
 
 class ModelsTest(unittest.TestCase):
@@ -15,7 +14,7 @@ class ModelsTest(unittest.TestCase):
             'organization': 'Assembla',
             'im': {'type': 'Skype', 'id': 'dsa'}
         }
-        user = models.User.instantiate_one(user_dict, api=MockAPI())
+        user = models.User.instantiate_one(user_dict)
 
         self.assertEquals('112233', user.phone)
         self.assertEquals('test_1', user.login)
@@ -44,7 +43,7 @@ class ModelsTest(unittest.TestCase):
             }
         ]
 
-        users = models.User.instantiate_many(users_dict, api=MockAPI())
+        users = models.User.instantiate_many(users_dict)
 
         self.assertEquals(2, len(users))
         self.assertIsInstance(users[0], models.User)
@@ -84,7 +83,7 @@ class ModelsTest(unittest.TestCase):
             'watcher_permissions': 1
         }
 
-        space = models.Space.instantiate_one(space_dict, api=MockAPI())
+        space = models.Space.instantiate_one(space_dict)
 
         self.assertEquals(1, space.status)
         self.assertEquals(None, space.banner_height)
@@ -148,19 +147,17 @@ class ModelsTest(unittest.TestCase):
             'working_hours': 0.0
         }
 
-        ticket = models.Ticket.instantiate_one(ticket_dict, api=MockAPI())
+        ticket = models.Ticket.instantiate_one(ticket_dict)
 
         self.assertEquals(8, ticket.number)
         self.assertEquals({'Text Field': '', 'list': ''}, ticket.custom_fields)
         self.assertEquals(0, ticket.total_estimate)
         self.assertEquals(1, ticket.priority)
-        self.assertEquals(None, ticket.component)
+        self.assertEquals(None, ticket.component_id)
         self.assertEquals(0, ticket.story_importance)
-        self.assertIsInstance(ticket.space, models.Space)
-        self.assertEquals('b89TL8MYWr4id7adbNA33N', ticket.space.id)
-        self.assertIsInstance(ticket.reporter, models.User)
-        self.assertEquals('bRxpnOMYWr4id7adbNA33N', ticket.reporter.id)
-        self.assertEquals(None, ticket.milestone)
+        self.assertEquals('b89TL8MYWr4id7adbNA33N', ticket.space_id)
+        self.assertEquals('bRxpnOMYWr4id7adbNA33N', ticket.reporter_id)
+        self.assertEquals(None, ticket.milestone_id)
         self.assertEquals(1, ticket.status)
         self.assertEquals(False, ticket.is_story)
         self.assertEquals('', ticket.notification_list)
@@ -175,7 +172,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(0, ticket.total_working_hours)
         self.assertEquals(0, ticket.estimate)
         self.assertEquals(10, ticket.id)
-        self.assertEquals(None, ticket.assigned_to)
+        self.assertEquals(None, ticket.assigned_to_id)
         self.assertEquals('New', ticket.status_name)
         self.assertEquals(0, ticket.working_hours)
 
@@ -189,17 +186,14 @@ class ModelsTest(unittest.TestCase):
             'id': 2
         }
 
-        time_entry = models.TimeEntry.instantiate_one(time_entry_dict, api=MockAPI())
+        time_entry = models.TimeEntry.instantiate_one(time_entry_dict)
 
         self.assertEquals(1, 1)
         self.assertEquals(datetime(2012, 12, 31, 16, 1, 17), time_entry.created_at)
-        self.assertIsInstance(time_entry.space, models.Space)
-        self.assertEquals('b3gNxoscyr4Q7K5bfBjDYC', time_entry.space.id)
+        self.assertEquals('b3gNxoscyr4Q7K5bfBjDYC', time_entry.space_id)
         self.assertEquals('Description goes here', time_entry.description)
-        self.assertIsInstance(time_entry.task, models.Task)
-        self.assertEquals(25, time_entry.task.id)
-        self.assertIsInstance(time_entry.user, models.User)
-        self.assertEquals('b9DhI-spar4OJk5bfBjDYC', time_entry.user.id)
+        self.assertEquals(25, time_entry.task_id)
+        self.assertEquals('b9DhI-spar4OJk5bfBjDYC', time_entry.user_id)
         self.assertEquals(2, time_entry.id)
 
     def test_milestone_instantiation(self):
@@ -222,27 +216,24 @@ class ModelsTest(unittest.TestCase):
             'space_id': 'b89TL8MYWr4id7adbNA33N'
         }
 
-        milestone = models.Milestone.instantiate_one(milestone_dict, api=MockAPI())
+        milestone = models.Milestone.instantiate_one(milestone_dict)
 
         self.assertEquals(0, milestone.planner_type)
         self.assertEquals('sdfsd', milestone.description)
         self.assertEquals(None, milestone.release_notes)
         self.assertEquals('None', milestone.pretty_relese_level)
         self.assertEquals(None, milestone.release_level)
-        self.assertIsInstance(milestone.created_by, models.User)
-        self.assertEquals('bRxpnOMYWr4id7adbNA33N', milestone.created_by.id)
+        self.assertEquals('bRxpnOMYWr4id7adbNA33N', milestone.created_by)
         self.assertEquals(None, milestone.completed_date)
         self.assertEquals(None, milestone.due_date)
         self.assertEquals(False, milestone.is_completed)
         self.assertEquals('dsa', milestone.title)
         self.assertEquals(datetime(2011, 7, 26, 8, 9, 25), milestone.created_at)
         self.assertEquals(datetime(2012, 5, 30, 9, 12, 14), milestone.updated_at)
-        self.assertIsInstance(milestone.updated_by, models.User)
-        self.assertEquals('bgnP_qA1Gr2QjIaaaHk9wZ', milestone.updated_by.id)
+        self.assertEquals('bgnP_qA1Gr2QjIaaaHk9wZ', milestone.updated_by)
         self.assertEquals(3, milestone.id)
-        self.assertEquals(None, milestone.user)
-        self.assertIsInstance(milestone.space, models.Space)
-        self.assertEquals('b89TL8MYWr4id7adbNA33N', milestone.space.id)
+        self.assertEquals(None, milestone.user_id)
+        self.assertEquals('b89TL8MYWr4id7adbNA33N', milestone.space_id)
 
     def test_task_instantiation(self):
         task_dict = {
@@ -262,21 +253,19 @@ class ModelsTest(unittest.TestCase):
             'id': 7
         }
 
-        task = models.Task.instantiate_one(task_dict, api=MockAPI())
+        task = models.Task.instantiate_one(task_dict)
 
         self.assertEquals(False, task.billed)
         self.assertEquals(datetime(2012, 12, 17, 8, 52, 20), task.created_at)
         self.assertEquals(None, task.ticket_number)
-        self.assertIsInstance(task.space, models.Space)
-        self.assertEquals('b3gNxoscyr4Q7K5bfBjDYC', task.space.id)
+        self.assertEquals('b3gNxoscyr4Q7K5bfBjDYC', task.space_id)
         self.assertEquals(datetime(2012, 12, 17, 8, 51, 0), task.begin_at)
         self.assertEquals(None, task.url)
         self.assertEquals('Description goes here', task.description)
         self.assertEquals(datetime(2012, 12, 17, 8, 52, 20), task.updated_at)
         self.assertEquals(None, task.job_agreement_id)
-        self.assertIsInstance(task.user, models.User)
-        self.assertEquals('apr9bascyr4Q7K5bfBjDYC', task.user.id)
-        self.assertEquals(None, task.ticket)
+        self.assertEquals('apr9bascyr4Q7K5bfBjDYC', task.user_id)
+        self.assertEquals(None, task.ticket_id)
         self.assertEquals(datetime(2012, 12, 17, 8, 51, 0), task.end_at)
         self.assertEquals(1.0, task.hours)
         self.assertEquals(7, task.id)
@@ -292,11 +281,10 @@ class ModelsTest(unittest.TestCase):
             'updated_at': '2012-09-11T13:09:26Z'
         }
 
-        ticket_status = models.TicketStatus.instantiate_one(ticket_status_dict, api=MockAPI())
+        ticket_status = models.TicketStatus.instantiate_one(ticket_status_dict)
 
         self.assertEquals(1, ticket_status.id)
-        self.assertIsInstance(ticket_status.space_tool, models.SpaceTool)
-        self.assertEquals('dP3FZG_ber4B8UadbNA33N', ticket_status.space_tool.id)
+        self.assertEquals('dP3FZG_ber4B8UadbNA33N', ticket_status.space_tool_id)
         self.assertEquals('New', ticket_status.name)
         self.assertEquals(1, ticket_status.state)
         self.assertEquals(1, ticket_status.list_order)
@@ -322,7 +310,7 @@ class ModelsTest(unittest.TestCase):
             'id': 'aFsIka2SGr4j8fadbNA33N',
         }
 
-        space_tool = models.SpaceTool.instantiate_one(space_tool_dict, api=MockAPI())
+        space_tool = models.SpaceTool.instantiate_one(space_tool_dict)
 
         self.assertEquals('SubversionTool', space_tool.type)
         self.assertEquals(12, space_tool.tool_id)
@@ -330,8 +318,7 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(datetime(2011, 9, 9, 9, 43, 7), space_tool.created_at)
         self.assertEquals(None, space_tool.team_permissions)
         self.assertEquals(None, space_tool.url)
-        self.assertIsInstance(space_tool.space, models.Space)
-        self.assertEquals('b89TL8MYWr4id7adbNA33N', space_tool.space.id)
+        self.assertEquals('b89TL8MYWr4id7adbNA33N', space_tool.space_id)
         self.assertEquals(1, space_tool.number)
         self.assertEquals(None, space_tool.public_permissions)
         self.assertEquals(None, space_tool.parent_id)
@@ -340,31 +327,3 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(None, space_tool.watcher_permissions)
         self.assertEquals({'state': 'failed', 'vcs_url': None}, space_tool.settings)
         self.assertEquals('aFsIka2SGr4j8fadbNA33N', space_tool.id)
-
-    @mock.patch.object(api.requests, 'get')
-    def test_lazy_loading(self, request):
-        request.return_value = util.make_response({
-            'id': 'b584'
-        })
-
-        ticket_dict = {
-            'space_id': 'b000',
-            'reporter_id': 'b001',
-        }
-
-        ticket = models.Ticket.instantiate_one(ticket_dict, api=api.API())
-        self.assertIsInstance(ticket.space, models.Space)
-        self.assertIsInstance(ticket.reporter, models.User)
-        self.assertIsNone(request.call_args)
-
-        self.assertEqual(ticket.space.id, 'b584')
-        self.assertEqual(
-            util.request_call(request)[0],
-            'https://api.assembla.com/v1/spaces/b000.json'
-        )
-
-        self.assertEqual(ticket.reporter.id, 'b584')
-        self.assertEqual(
-            util.request_call(request)[0],
-            'https://api.assembla.com/v1/users/b001.json'
-        )
