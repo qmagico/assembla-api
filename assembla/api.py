@@ -45,6 +45,10 @@ class API(object):
             uri='/v1/spaces/{space_id}/users.json',
             model=models.User)
 
+        self.space_tools = self.bind(
+            uri='/v1/spaces/{space_id}/space_tools.json',
+            model=models.SpaceTool)
+
         self.merge_request = self.bind(
             uri='/v1/spaces/{space_id}/space_tools/{space_tool_id}/merge_requests.json?per_page=100&status=open',
             model=models.MergeRequest)
