@@ -142,3 +142,8 @@ class APITest(unittest.TestCase):
         self.assertIsInstance(tasks, list)
         for task in tasks:
             self.assertIsInstance(task, models.Task)
+
+    def test_merge_request(self, request):
+        request.return_value = util.make_response({})
+        ticket = self.api.merge_request(space_id=1, space_tool_id=1)
+        self.assertIsInstance(ticket, models.MergeRequest)

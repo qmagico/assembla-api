@@ -45,3 +45,7 @@ class Milestone(Model):
 
 class Task(Model):
     pass
+
+
+class MergeRequest(Model):
+    pass

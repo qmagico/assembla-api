@@ -45,6 +45,10 @@ class API(object):
             uri='/v1/spaces/{space_id}/users.json',
             model=models.User)
 
+        self.merge_request = self.bind(
+            uri='/v1/spaces/{space_id}/space_tools/{space_tool_id}/merge_requests.json?per_page=100&status=open',
+            model=models.MergeRequest)
+
     def _validate(self, uri_list):
         all_params = []
         for uri in uri_list:

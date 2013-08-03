@@ -332,3 +332,44 @@ class ModelsTest(unittest.TestCase):
         self.assertEquals(None, space_tool.watcher_permissions)
         self.assertEquals({'state': 'failed', 'vcs_url': None}, space_tool.settings)
         self.assertEquals('aFsIka2SGr4j8fadbNA33N', space_tool.id)
+
+    def test_merge_request_instantiation(self):
+        merge_request_dict = {
+            'processed_by_user_id': None,
+            'status': 0,
+            'apply_status': None,
+            'description': '',
+            'title': 'title',
+            'target_space_tool_id': 'bgfq4qA1Gr2QjIaaaHk9wZ',
+            'target_space_id': 'bBEAVq-5Gr4yhAimNqr_pR',
+            'applied_at': None,
+            'target_symbol': 'master',
+            'source_symbol_type': 0,
+            'source_symbol': 'test_branch',
+            'space_tool_id': 'a5BqzgFVSr4zLpab_q0pIh',
+            'updated_at': '2012-07-26T07:59:40Z',
+            'commit': None,
+            'id': 2,
+            'created_at': '2012-06-27T12:41:17Z',
+            'user_id': 'aeF1CInHCr4ybVab_q0pIh'
+        }
+
+        merge_request = models.MergeRequest.instantiate_one(merge_request_dict)
+
+        self.assertIsNone(merge_request.processed_by_user_id)
+        self.assertEqual(0, merge_request.status)
+        self.assertIsNone(merge_request.apply_status)
+        self.assertEqual('', merge_request.description)
+        self.assertEqual('title', merge_request.title)
+        self.assertEqual('bgfq4qA1Gr2QjIaaaHk9wZ', merge_request.target_space_tool_id)
+        self.assertEqual('bBEAVq-5Gr4yhAimNqr_pR', merge_request.target_space_id)
+        self.assertIsNone(merge_request.applied_at)
+        self.assertEqual('master', merge_request.target_symbol)
+        self.assertEqual(0, merge_request.source_symbol_type)
+        self.assertEqual('test_branch', merge_request.source_symbol)
+        self.assertEqual('a5BqzgFVSr4zLpab_q0pIh', merge_request.space_tool_id)
+        self.assertEqual(datetime(2012, 7, 26, 7, 59, 40), merge_request.updated_at)
+        self.assertIsNone(merge_request.commit)
+        self.assertEqual(2, merge_request.id)
+        self.assertEqual(datetime(2012, 6, 27, 12, 41, 17), merge_request.created_at)
+        self.assertEqual('aeF1CInHCr4ybVab_q0pIh', merge_request.user_id)
